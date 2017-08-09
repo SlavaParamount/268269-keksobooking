@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Славик Парамонов](https://up.htmlacademy.ru/javascript/10/user/268269).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Буртылёв](https://up.htmlacademy.ru/javascript/10/user/3341).
 
 ---
 
