@@ -45,7 +45,6 @@ for (var i = 0; i < NUMBER_OF_ADS; i++) {
     },
     'offer': {
       'title': HEADINGS_RAND[i],
-      'adress': '',
       'price': getValueFromRange(1000, 1000000),
       'type': TYPES[getValueFromRange(0, (TYPES.length))],
       'rooms': getValueFromRange(1, 5),
@@ -62,7 +61,7 @@ for (var i = 0; i < NUMBER_OF_ADS; i++) {
     }
   };
 
-  ads[i].adress = ads[i].location.x + ', ' + ads[i].location.y;
+  ads[i].offer.adress = (ads[i].location.x).toString() + ', ' + (ads[i].location.y).toString();
 
   var point = '<div class="pin" style="left: ' + Math.floor((ads[i].location.x) - 0.5 * POINTER_WIDTH) +
     'px; top: ' + (ads[i].location.y - POINTER_HEIGHT) + 'px">\n' +
@@ -76,6 +75,7 @@ for (var i = 0; i < NUMBER_OF_ADS; i++) {
 TokyoPinMap.appendChild(pointsFragment);
 
 var offer = (lodgeTemplate).content.cloneNode(true);
+
 offer.querySelector('.lodge__title').textContent = ads[0].offer.title;
 offer.querySelector('.lodge__address').textContent = ads[0].offer.adress;
 offer.querySelector('.lodge__price').textContent = ads[0].offer.price + '&#x20bd;/ночь';
@@ -93,13 +93,12 @@ for (i = 0; i < ads[0].offer.features.length; i++) {
   var featureElement = '<span class = "feature-image feature-image--' + ads[0].offer.features[i] + '"></span>';
   offer.querySelector('.lodge__features').insertAdjacentHTML('beforeend', featureElement);
 }
-
 offer.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + ads[0].offer.guests + ' гостей в ' + ads[0].offer.rooms + ' комнатах';
 offer.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + ads[0].offer.checkin + ', выезд до ' + ads[0].offer.checkout;
 offer.querySelector('.lodge__description').textContent = ads[0].offer.description;
-offer.querySelector('img').src = ads[0].author.avatar;
+var dialogTitle = document.querySelector('.dialog__title');
 var newDialogPanel = offer.querySelector('.dialog__panel');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 var dialogParent = oldDialogPanel.parentNode;
+dialogTitle.querySelector('img').src = ads[0].author.avatar;
 dialogParent.replaceChild(newDialogPanel, oldDialogPanel);
-
