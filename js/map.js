@@ -20,7 +20,7 @@ var randomizeArray = function (arr) {
   var arrCopy = arr.slice();
   var arrLength = arrCopy.length;
   var finalArray = [];
-  for (i = 0; i < arr.length; i++) {
+  for (var i = 0; i < arr.length; i++) {
     var randomIndex = getValueFromRange(0, (arrLength - i));
     finalArray[i] = arrCopy.splice(randomIndex, 1)[0];
   }
@@ -38,8 +38,8 @@ var generateFeatures = function () {
 var HEADINGS_RAND = randomizeArray(HEADINGS);
 var IMG_INDEXES_RAND = randomizeArray(IMG_INDEXES);
 
-var defineAdObject = function (adObject) {
-  adObject = {
+var defineAdObject = function () {
+  var adObject = {
     'author': {
       'avatar': 'img/avatars/user0' + IMG_INDEXES_RAND[i] + '.png'
     },
@@ -60,27 +60,32 @@ var defineAdObject = function (adObject) {
       'y': getValueFromRange(100, 500),
     }
   };
-  console.log(adObject);
-  
+  return adObject;
+};
+
+var generatePointer = function () {
+  var pointer = document.createElement('div');
+  pointer.classList.add('pin');
+  pointer.style.left = (Math.floor((ads[i].location.x) - 0.5 * POINTER_WIDTH)) + 'px';
+  pointer.style.top = (ads[i].location.y - POINTER_HEIGHT) + 'px';
+  var pointerImage = document.createElement('img');
+  pointerImage.src = ads[i].author.avatar;
+  pointerImage.classList.add('rounded');
+  pointerImage.style.height = '40px';
+  pointerImage.style.width = '40px';
+  pointer.appendChild(pointerImage);
+  return pointer;
 };
 
 for (var i = 0; i < NUMBER_OF_ADS; i++) {
-  ads[i] = defineAdObject(ads[i]);
-  console.log(ads[i]);
-  ads[i].offer.adress = (ads[i].location.x).toString() + ', ' + (ads[i].location.y).toString();
-
-  var point = '<div class="pin" style="left: ' + Math.floor((ads[i].location.x) - 0.5 * POINTER_WIDTH) +
-    'px; top: ' + (ads[i].location.y - POINTER_HEIGHT) + 'px">\n' +
-  '  <img src="' + ads[i].author.avatar + '" class="rounded" width="40" height="40">\n' +
-  '</div>';
-  var k = document.createElement('div');
-  k.innerHTML = point;
-  pointsFragment.appendChild(k.firstChild);
+  ads[i] = defineAdObject();
+  ads[i].offer.adress = ads[i].location.x + ', ' + ads[i].location.y;
+  pointsFragment.appendChild(generatePointer());
 }
 
 TokyoPinMap.appendChild(pointsFragment);
 
-var offer = (lodgeTemplate).content.cloneNode(true);
+var offer = lodgeTemplate.content.cloneNode(true);
 
 offer.querySelector('.lodge__title').textContent = ads[0].offer.title;
 offer.querySelector('.lodge__address').textContent = ads[0].offer.adress;
