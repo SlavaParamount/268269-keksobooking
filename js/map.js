@@ -18,11 +18,11 @@ var getValueFromRange = function (min, max) {
 
 var randomizeArray = function (arr) {
   var arrCopy = arr.slice();
-  var arrLenght = arrCopy.length;
+  var arrLength = arrCopy.length;
   var finalArray = [];
-  for (k = 0; k < arr.length; k++) {
-    var randomIndex = getValueFromRange(0, (arrLenght - k));
-    finalArray[k] = arrCopy.splice(randomIndex, 1)[0];
+  for (i = 0; i < arr.length; i++) {
+    var randomIndex = getValueFromRange(0, (arrLength - i));
+    finalArray[i] = arrCopy.splice(randomIndex, 1)[0];
   }
   return finalArray;
 };
@@ -38,8 +38,8 @@ var generateFeatures = function () {
 var HEADINGS_RAND = randomizeArray(HEADINGS);
 var IMG_INDEXES_RAND = randomizeArray(IMG_INDEXES);
 
-for (var i = 0; i < NUMBER_OF_ADS; i++) {
-  ads[i] = {
+var defineAdObject = function (adObject) {
+  adObject = {
     'author': {
       'avatar': 'img/avatars/user0' + IMG_INDEXES_RAND[i] + '.png'
     },
@@ -60,7 +60,13 @@ for (var i = 0; i < NUMBER_OF_ADS; i++) {
       'y': getValueFromRange(100, 500),
     }
   };
+  console.log(adObject);
+  
+};
 
+for (var i = 0; i < NUMBER_OF_ADS; i++) {
+  ads[i] = defineAdObject(ads[i]);
+  console.log(ads[i]);
   ads[i].offer.adress = (ads[i].location.x).toString() + ', ' + (ads[i].location.y).toString();
 
   var point = '<div class="pin" style="left: ' + Math.floor((ads[i].location.x) - 0.5 * POINTER_WIDTH) +
