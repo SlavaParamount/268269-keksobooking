@@ -11,7 +11,6 @@ var POINTER_HEIGHT = 40;
 var POINTER_WIDTH = 40;
 var TokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
-var dialogPanel = document.querySelector('.dialog__panel');
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -98,7 +97,7 @@ for (i = 0; i < ads[0].offer.features.length; i++) {
 offer.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + ads[0].offer.guests + ' гостей в ' + ads[0].offer.rooms + ' комнатах';
 offer.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + ads[0].offer.checkin + ', выезд до ' + ads[0].offer.checkout;
 offer.querySelector('.lodge__description').textContent = ads[0].offer.description;
-offer.querySelector('.lodge__title').src = ads[0].author.avatar;
+offer.querySelector('img').src = ads[0].author.avatar;
 var newDialogPanel = offer.querySelector('.dialog__panel');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 var dialogParent = oldDialogPanel.parentNode;
