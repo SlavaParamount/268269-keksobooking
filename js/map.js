@@ -131,7 +131,7 @@ var createNewDialogPanel = function (offerObj) {
 };
 
 var changeDialogContent = function (inputObj) {
-  var newDialogPanel = createNewDialogPanel(inputObj);
+  newDialogPanel = createNewDialogPanel(inputObj);
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
   dialogParent.replaceChild(newDialogPanel, oldDialogPanel);
 };
