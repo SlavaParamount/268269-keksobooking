@@ -7,22 +7,14 @@ var IMG_INDEXES = [1, 2, 3, 4, 5, 6, 7, 8];
 var CHECKINS = ['12:00', '13.00', '14.00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var pointsFragment = document.createDocumentFragment();
-var POINTER_HEIGHT = 40;
-var POINTER_WIDTH = 40;
+var POINTER_HEIGHT = 75;
+var POINTER_WIDTH = 56;
 var TokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
 var offer = lodgeTemplate.content.cloneNode(true);
 var dialogTitle = document.querySelector('.dialog__title');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 var dialogParent = oldDialogPanel.parentNode;
-var lodgeTitle = offer.querySelector('.lodge__title');
-var lodgeAddress = offer.querySelector('.lodge__address');
-var lodgePrice = offer.querySelector('.lodge__price');
-var lodgeType = offer.querySelector('.lodge__type');
-var lodgeRoomGuests = offer.querySelector('.lodge__rooms-and-guests');
-var lodgeCheckinTime = offer.querySelector('.lodge__checkin-time');
-var lodgeDescription = offer.querySelector('.lodge__description');
-var lodgeFeatures = offer.querySelector('.lodge__features');
 var newDialogPanel = offer.querySelector('.dialog__panel');
 
 var getValueFromRange = function (min, max) {
@@ -34,7 +26,7 @@ var randomizeArray = function (arr) {
   var arrLength = arrCopy.length;
   var finalArray = [];
   for (var i = 0; i < arr.length; i++) {
-    var randomIndex = getValueFromRange(0, (arrLength - i));
+    var randomIndex = getValueFromRange(0, arrLength - i);
     finalArray[i] = arrCopy.splice(randomIndex, 1)[0];
   }
   return finalArray;
@@ -59,7 +51,7 @@ var defineAdObject = function () {
     'offer': {
       'title': HEADINGS_RAND[i],
       'price': getValueFromRange(1000, 1000000),
-      'type': TYPES[getValueFromRange(0, (TYPES.length))],
+      'type': TYPES[getValueFromRange(0, TYPES.length)],
       'rooms': getValueFromRange(1, 5),
       'guests': getValueFromRange(1, 10),
       'checkin': CHECKINS[getValueFromRange(0, CHECKINS.length)],
@@ -105,7 +97,15 @@ var createFeatureElement = function (featuresArray) {
   return newFeatureElement;
 };
 
-var writeOffer = function (offerObj) {
+var createNewDialogPanel = function (offerObj) {
+  var lodgeTitle = offer.querySelector('.lodge__title');
+  var lodgeAddress = offer.querySelector('.lodge__address');
+  var lodgePrice = offer.querySelector('.lodge__price');
+  var lodgeType = offer.querySelector('.lodge__type');
+  var lodgeRoomGuests = offer.querySelector('.lodge__rooms-and-guests');
+  var lodgeCheckinTime = offer.querySelector('.lodge__checkin-time');
+  var lodgeDescription = offer.querySelector('.lodge__description');
+  var lodgeFeatures = offer.querySelector('.lodge__features');
   lodgePrice.textContent = offerObj.offer.price + '&#x20bd;/ночь';
   lodgeTitle.textContent = offerObj.offer.title;
   lodgeAddress.textContent = offerObj.offer.adress;
@@ -126,10 +126,12 @@ var writeOffer = function (offerObj) {
     lodgeFeatures.appendChild(createFeatureElement(offerObj.offer.features));
   }
 
+  return newDialogPanel;
+
 };
 
-var changeDialogContent = function(inputObj) {
-  writeOffer(inputObj);
+var changeDialogContent = function (inputObj) {
+  var newDialogPanel = createNewDialogPanel(inputObj);
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
   dialogParent.replaceChild(newDialogPanel, oldDialogPanel);
 };
