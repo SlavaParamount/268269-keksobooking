@@ -100,8 +100,8 @@ TokyoPinMap.appendChild(pointsFragment);
 
 var createFeatureElement = function (featuresArray) {
   var newFeatureElement = document.createElement('span');
-  newFeatureElement.classList.add('feature-image');
-  newFeatureElement.classList.add('feature-image--' + featuresArray[i]);
+  newFeatureElement.classList.add('feature__image');
+  newFeatureElement.classList.add('feature__image--' + featuresArray[i]);
   return newFeatureElement;
 };
 
@@ -128,7 +128,7 @@ var writeOffer = function (offerObj) {
 
 };
 
-var changeDialogContent = function (inputObj) {
+var changeDialogContent = function(inputObj) {
   writeOffer(inputObj);
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
   dialogParent.replaceChild(newDialogPanel, oldDialogPanel);
