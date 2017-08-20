@@ -128,7 +128,7 @@ var writeOffer = function (offerObj) {
 
 };
 
-var changeDialogContent = function(inputObj) {
+var changeDialogContent = function (inputObj) {
   writeOffer(inputObj);
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
   dialogParent.replaceChild(newDialogPanel, oldDialogPanel);
