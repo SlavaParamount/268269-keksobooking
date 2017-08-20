@@ -15,6 +15,14 @@ var offer = lodgeTemplate.content.cloneNode(true);
 var dialogTitle = document.querySelector('.dialog__title');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 var dialogParent = oldDialogPanel.parentNode;
+var lodgeTitle = offer.querySelector('.lodge__title');
+var lodgeAddress = offer.querySelector('.lodge__address');
+var lodgePrice = offer.querySelector('.lodge__price');
+var lodgeType = offer.querySelector('.lodge__type');
+var lodgeRoomGuests = offer.querySelector('.lodge__rooms-and-guests');
+var lodgeCheckinTime = offer.querySelector('.lodge__checkin-time');
+var lodgeDescription = offer.querySelector('.lodge__description');
+var lodgeFeatures = offer.querySelector('.lodge__features');
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -64,16 +72,17 @@ var defineAdObject = function () {
       'y': getValueFromRange(100, 500),
     }
   };
+  ads[i].offer.adress = ads[i].location.x + ', ' + ads[i].location.y;
   return adObject;
 };
 
-var generatePointer = function () {
+var generatePointer = function (adObject) {
   var pointer = document.createElement('div');
   pointer.classList.add('pin');
-  pointer.style.left = (Math.floor((ads[i].location.x) - 0.5 * POINTER_WIDTH)) + 'px';
-  pointer.style.top = (ads[i].location.y - POINTER_HEIGHT) + 'px';
+  pointer.style.left = (Math.floor((adObject.location.x) - 0.5 * POINTER_WIDTH)) + 'px';
+  pointer.style.top = (adObject.location.y - POINTER_HEIGHT) + 'px';
   var pointerImage = document.createElement('img');
-  pointerImage.src = ads[i].author.avatar;
+  pointerImage.src = adObject.author.avatar;
   pointerImage.classList.add('rounded');
   pointerImage.style.height = '40px';
   pointerImage.style.width = '40px';
@@ -83,29 +92,18 @@ var generatePointer = function () {
 
 for (var i = 0; i < NUMBER_OF_ADS; i++) {
   ads[i] = defineAdObject();
-  ads[i].offer.adress = ads[i].location.x + ', ' + ads[i].location.y;
-  pointsFragment.appendChild(generatePointer());
+  pointsFragment.appendChild(generatePointer(ads[i]));
 }
 
 TokyoPinMap.appendChild(pointsFragment);
 
 var writeOffer = function () {
-  var lodgeTitle = offer.querySelector('.lodge__title');
-  var lodgeAddress = offer.querySelector('.lodge__address');
-  var lodgePrice = offer.querySelector('.lodge__price');
-  var lodgeType = offer.querySelector('.lodge__type');
-  var lodgeRoomGuests = offer.querySelector('.lodge__rooms-and-guests');
-  var lodgeCheckinTime = offer.querySelector('.lodge__checkin-time');
-  var lodgeDescription = offer.querySelector('.lodge__description');
-  var lodgeFeatures = offer.querySelector('.lodge__features');
-
   lodgePrice.textContent = ads[0].offer.price + '&#x20bd;/ночь';
   lodgeTitle.textContent = ads[0].offer.title;
   lodgeAddress.textContent = ads[0].offer.adress;
   lodgeRoomGuests.textContent = 'Для ' + ads[0].offer.guests + ' гостей в ' + ads[0].offer.rooms + ' комнатах';
   lodgeCheckinTime.textContent = 'Заезд после ' + ads[0].offer.checkin + ', выезд до ' + ads[0].offer.checkout;
   lodgeDescription.textContent = ads[0].offer.description;
-
 
   switch (ads[0].offer.type) {
     case 'flat': lodgeType.textContent = 'Квартира';
