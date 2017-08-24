@@ -11,9 +11,9 @@ var POINTER_HEIGHT = 75;
 var POINTER_WIDTH = 56;
 var TokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
+var PIN_ACTIVE_CLASS = 'pin--active';
 var dialogTitle = document.querySelector('.dialog__title');
-var oldDialogPanel = document.querySelector('.dialog__panel');
-var dialogPanelParent = oldDialogPanel.parentNode;
+
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -40,6 +40,20 @@ var generateFeatures = function () {
 
 var HEADINGS_RAND = randomizeArray(HEADINGS);
 var IMG_INDEXES_RAND = randomizeArray(IMG_INDEXES);
+
+var checkCSSClass = function (inputObject, inputClass) {
+  var result;
+  inputObject.classList.contains(inputClass) ? result = true : result = false;
+  return result;
+};
+
+var deleteClass = function (inputElement, inputClass) {
+  inputElement.classList.remove(inputClass);
+};
+
+var addClass = function (inputElement, inputClass) {
+  inputElement.classList.add(inputClass);
+};
 
 var defineAdObject = function () {
   var adObject = {
@@ -131,6 +145,8 @@ var createNewDialogPanel = function (offerObj) {
 };
 
 var changeDialogContent = function (inputObj) {
+  var oldDialogPanel = document.querySelector('.dialog__panel');
+  var dialogPanelParent = oldDialogPanel.parentNode;
   var newDialogPanel = createNewDialogPanel(inputObj);
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
   dialogPanelParent.replaceChild(newDialogPanel, oldDialogPanel);
@@ -146,9 +162,33 @@ var findClickedPin = function (clickedElement) {
   return resultElement;
 };
 
+var cleanActivePin = function () {
+  var pinsNodes = TokyoPinMap.querySelectorAll('.pin');
+  for (var j = 0; j < pinsNodes.length; j++) {
+    if (checkCSSClass(pinsNodes[j], PIN_ACTIVE_CLASS)) {
+      deleteClass(pinsNodes[j], PIN_ACTIVE_CLASS);
+    }
+  }
+};
+
+var findArrayElement = function (clickedPin) {
+  var imgUrl = clickedPin.querySelector('img').src;
+  var slicedUrl = imgUrl.substr(imgUrl.length - 10);
+  for (var j = 0; j < ads.length; j++) {
+    var adSlicedUrl = ads[j].author.avatar.substr(ads[j].author.avatar.length - 10);
+    if (adSlicedUrl === slicedUrl) {
+      var resultArrayElement = ads[j];
+    }
+  }
+  return resultArrayElement;
+};
+
 for (i = 0; i < allPins.length; i++) {
   allPins[i].addEventListener('click', function (evt) {
-    var Pin = findClickedPin(evt.target);
-    
+    cleanActivePin();
+    var clickedPin = findClickedPin(evt.target);
+    addClass(clickedPin, PIN_ACTIVE_CLASS);
+    changeDialogContent(findArrayElement(clickedPin));
+
   });
 }
