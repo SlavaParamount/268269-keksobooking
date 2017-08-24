@@ -137,3 +137,18 @@ var changeDialogContent = function (inputObj) {
 };
 
 changeDialogContent(ads[0]);
+
+var allPins = document.querySelectorAll('.pin');
+
+var findClickedPin = function (clickedElement) {
+  var resultElement;
+  clickedElement.tagName === 'DIV' ? resultElement = clickedElement : resultElement = clickedElement.parentNode;
+  return resultElement;
+};
+
+for (i = 0; i < allPins.length; i++) {
+  allPins[i].addEventListener('click', function (evt) {
+    var Pin = findClickedPin(evt.target);
+    
+  });
+}
