@@ -13,7 +13,8 @@ var TokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
 var PIN_ACTIVE_CLASS = 'pin--active';
 var dialogTitle = document.querySelector('.dialog__title');
-
+var activePin;
+var closeButton = document.querySelector('.dialog__close');
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -40,20 +41,6 @@ var generateFeatures = function () {
 
 var HEADINGS_RAND = randomizeArray(HEADINGS);
 var IMG_INDEXES_RAND = randomizeArray(IMG_INDEXES);
-
-var checkCSSClass = function (inputObject, inputClass) {
-  var result;
-  inputObject.classList.contains(inputClass) ? result = true : result = false;
-  return result;
-};
-
-var deleteClass = function (inputElement, inputClass) {
-  inputElement.classList.remove(inputClass);
-};
-
-var addClass = function (inputElement, inputClass) {
-  inputElement.classList.add(inputClass);
-};
 
 var defineAdObject = function () {
   var adObject = {
@@ -154,23 +141,6 @@ var changeDialogContent = function (inputObj) {
 
 changeDialogContent(ads[0]);
 
-var allPins = document.querySelectorAll('.pin');
-
-var findClickedPin = function (clickedElement) {
-  var resultElement;
-  clickedElement.tagName === 'DIV' ? resultElement = clickedElement : resultElement = clickedElement.parentNode;
-  return resultElement;
-};
-
-var cleanActivePin = function () {
-  var pinsNodes = TokyoPinMap.querySelectorAll('.pin');
-  for (var j = 0; j < pinsNodes.length; j++) {
-    if (checkCSSClass(pinsNodes[j], PIN_ACTIVE_CLASS)) {
-      deleteClass(pinsNodes[j], PIN_ACTIVE_CLASS);
-    }
-  }
-};
-
 var findArrayElement = function (clickedPin) {
   var imgUrl = clickedPin.querySelector('img').src;
   var slicedUrl = imgUrl.substr(imgUrl.length - 10);
@@ -183,12 +153,26 @@ var findArrayElement = function (clickedPin) {
   return resultArrayElement;
 };
 
-for (i = 0; i < allPins.length; i++) {
-  allPins[i].addEventListener('click', function (evt) {
-    cleanActivePin();
-    var clickedPin = findClickedPin(evt.target);
-    addClass(clickedPin, PIN_ACTIVE_CLASS);
+TokyoPinMap.addEventListener('click', function (evt) {
+  var clickedPin = evt.target.closest('.pin:not(.pin__main)');
+  if (activePin) {
+    activePin.classList.remove(PIN_ACTIVE_CLASS);
+  }
+  if (clickedPin) {
+    activePin = clickedPin;
+    activePin.classList.add(PIN_ACTIVE_CLASS);
     changeDialogContent(findArrayElement(clickedPin));
+    document.querySelector('.dialog__panel').parentNode.style.display = 'block';
+  }
+});
 
-  });
-}
+closeButton.addEventListener('click', function () {
+  document.querySelector('.dialog__panel').parentNode.style.display = 'none';
+  if (activePin) {
+    activePin.classList.remove(PIN_ACTIVE_CLASS);
+  }
+});
+
+document.addEventListener('keydown', function () {
+  console.log('.....');
+});
