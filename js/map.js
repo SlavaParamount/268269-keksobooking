@@ -9,12 +9,14 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var pointsFragment = document.createDocumentFragment();
 var POINTER_HEIGHT = 75;
 var POINTER_WIDTH = 56;
-var TokyoPinMap = document.querySelector('.tokyo__pin-map');
+var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
 var PIN_ACTIVE_CLASS = 'pin--active';
 var dialogTitle = document.querySelector('.dialog__title');
 var activePin;
 var closeButton = document.querySelector('.dialog__close');
+var oldDialogPanel = document.querySelector('.dialog__panel');
+var dialogPanelParent = oldDialogPanel.parentNode;
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -87,7 +89,7 @@ for (var i = 0; i < NUMBER_OF_ADS; i++) {
   pointsFragment.appendChild(generatePointer(ads[i]));
 }
 
-TokyoPinMap.appendChild(pointsFragment);
+tokyoPinMap.appendChild(pointsFragment);
 
 var createFeatureElement = function (feature) {
   var newFeatureElement = document.createElement('span');
@@ -98,7 +100,6 @@ var createFeatureElement = function (feature) {
 
 var createNewDialogPanel = function (offerObj) {
   var offer = lodgeTemplate.content.cloneNode(true);
-  var newDialogPanel = offer.querySelector('.dialog__panel');
   var lodgeTitle = offer.querySelector('.lodge__title');
   var lodgeAddress = offer.querySelector('.lodge__address');
   var lodgePrice = offer.querySelector('.lodge__price');
@@ -126,17 +127,18 @@ var createNewDialogPanel = function (offerObj) {
   for (i = 0; i < offerObj.offer.features.length; i++) {
     lodgeFeatures.appendChild(createFeatureElement(offerObj.offer.features[i]));
   }
-
-  return newDialogPanel;
+  return offer;
 
 };
 
 var changeDialogContent = function (inputObj) {
-  var oldDialogPanel = document.querySelector('.dialog__panel');
-  var dialogPanelParent = oldDialogPanel.parentNode;
-  var newDialogPanel = createNewDialogPanel(inputObj);
+  var newDialogPanel = createNewDialogPanel(inputObj).querySelector('.dialog__panel');
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
+  console.log(newDialogPanel);
+  console.log(oldDialogPanel);
+  console.log(dialogPanelParent);
   dialogPanelParent.replaceChild(newDialogPanel, oldDialogPanel);
+  oldDialogPanel = newDialogPanel;
 };
 
 changeDialogContent(ads[0]);
@@ -153,7 +155,7 @@ var findArrayElement = function (clickedPin) {
   return resultArrayElement;
 };
 
-TokyoPinMap.addEventListener('click', function (evt) {
+tokyoPinMap.addEventListener('click', function (evt) {
   var clickedPin = evt.target.closest('.pin:not(.pin__main)');
   if (activePin) {
     activePin.classList.remove(PIN_ACTIVE_CLASS);
