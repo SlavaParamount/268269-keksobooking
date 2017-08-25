@@ -73,10 +73,12 @@ var defineAdObject = function () {
 var generatePointer = function (adObject) {
   var pointer = document.createElement('div');
   pointer.classList.add('pin');
+  pointer.id = i;
   pointer.style.left = (Math.floor((adObject.location.x) - 0.5 * POINTER_WIDTH)) + 'px';
   pointer.style.top = (adObject.location.y - POINTER_HEIGHT) + 'px';
   var pointerImage = document.createElement('img');
   pointerImage.src = adObject.author.avatar;
+  pointerImage.tabIndex = '0';
   pointerImage.classList.add('rounded');
   pointerImage.style.height = '40px';
   pointerImage.style.width = '40px';
@@ -134,9 +136,6 @@ var createNewDialogPanel = function (offerObj) {
 var changeDialogContent = function (inputObj) {
   var newDialogPanel = createNewDialogPanel(inputObj).querySelector('.dialog__panel');
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
-  console.log(newDialogPanel);
-  console.log(oldDialogPanel);
-  console.log(dialogPanelParent);
   dialogPanelParent.replaceChild(newDialogPanel, oldDialogPanel);
   oldDialogPanel = newDialogPanel;
 };
@@ -144,15 +143,8 @@ var changeDialogContent = function (inputObj) {
 changeDialogContent(ads[0]);
 
 var findArrayElement = function (clickedPin) {
-  var imgUrl = clickedPin.querySelector('img').src;
-  var slicedUrl = imgUrl.substr(imgUrl.length - 10);
-  for (var j = 0; j < ads.length; j++) {
-    var adSlicedUrl = ads[j].author.avatar.substr(ads[j].author.avatar.length - 10);
-    if (adSlicedUrl === slicedUrl) {
-      var resultArrayElement = ads[j];
-    }
-  }
-  return resultArrayElement;
+  var pinID = clickedPin.id;
+  return ads[pinID];
 };
 
 tokyoPinMap.addEventListener('click', function (evt) {
@@ -164,17 +156,37 @@ tokyoPinMap.addEventListener('click', function (evt) {
     activePin = clickedPin;
     activePin.classList.add(PIN_ACTIVE_CLASS);
     changeDialogContent(findArrayElement(clickedPin));
-    document.querySelector('.dialog__panel').parentNode.style.display = 'block';
+    document.querySelector('.dialog__panel').parentNode.classList.remove('hidden');
   }
 });
 
 closeButton.addEventListener('click', function () {
-  document.querySelector('.dialog__panel').parentNode.style.display = 'none';
+  document.querySelector('.dialog__panel').parentNode.classList.add('hidden');
   if (activePin) {
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
 });
 
-document.addEventListener('keydown', function () {
-  console.log('.....');
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 27 && (activePin)) {
+    document.querySelector('.dialog__panel').parentNode.classList.add('hidden');
+    activePin.classList.remove(PIN_ACTIVE_CLASS);
+  }
+
+  if (evt.keyCode === 13 && document.activeElement.parentNode.classList.contains('pin')) {
+    if (activePin) {
+      activePin.classList.remove(PIN_ACTIVE_CLASS);
+    }
+    activePin = document.activeElement.parentNode;
+    activePin.classList.add(PIN_ACTIVE_CLASS);
+    changeDialogContent(findArrayElement(activePin));
+    document.querySelector('.dialog__panel').parentNode.classList.remove('hidden');
+  }
+
+  if (evt.keyCode === 27 && document.activeElement === closeButton) {
+    document.querySelector('.dialog__panel').parentNode.classList.add('hidden');
+    if (activePin) {
+      activePin.classList.remove(PIN_ACTIVE_CLASS);
+    }
+  }
 });
