@@ -9,11 +9,16 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var pointsFragment = document.createDocumentFragment();
 var POINTER_HEIGHT = 75;
 var POINTER_WIDTH = 56;
-var TokyoPinMap = document.querySelector('.tokyo__pin-map');
+var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
+var PIN_ACTIVE_CLASS = 'pin--active';
 var dialogTitle = document.querySelector('.dialog__title');
+var activePin;
+var closeButton = document.querySelector('.dialog__close');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 var dialogPanelParent = oldDialogPanel.parentNode;
+var ESC_CODE = 27;
+var ENTER_CODE = 13;
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -70,10 +75,12 @@ var defineAdObject = function () {
 var generatePointer = function (adObject) {
   var pointer = document.createElement('div');
   pointer.classList.add('pin');
+  pointer.dataset.searchIndex = i;
   pointer.style.left = (Math.floor((adObject.location.x) - 0.5 * POINTER_WIDTH)) + 'px';
   pointer.style.top = (adObject.location.y - POINTER_HEIGHT) + 'px';
   var pointerImage = document.createElement('img');
   pointerImage.src = adObject.author.avatar;
+  pointer.tabIndex = '0';
   pointerImage.classList.add('rounded');
   pointerImage.style.height = '40px';
   pointerImage.style.width = '40px';
@@ -86,7 +93,7 @@ for (var i = 0; i < NUMBER_OF_ADS; i++) {
   pointsFragment.appendChild(generatePointer(ads[i]));
 }
 
-TokyoPinMap.appendChild(pointsFragment);
+tokyoPinMap.appendChild(pointsFragment);
 
 var createFeatureElement = function (feature) {
   var newFeatureElement = document.createElement('span');
@@ -97,7 +104,6 @@ var createFeatureElement = function (feature) {
 
 var createNewDialogPanel = function (offerObj) {
   var offer = lodgeTemplate.content.cloneNode(true);
-  var newDialogPanel = offer.querySelector('.dialog__panel');
   var lodgeTitle = offer.querySelector('.lodge__title');
   var lodgeAddress = offer.querySelector('.lodge__address');
   var lodgePrice = offer.querySelector('.lodge__price');
@@ -125,15 +131,83 @@ var createNewDialogPanel = function (offerObj) {
   for (i = 0; i < offerObj.offer.features.length; i++) {
     lodgeFeatures.appendChild(createFeatureElement(offerObj.offer.features[i]));
   }
-
-  return newDialogPanel;
+  return offer;
 
 };
 
 var changeDialogContent = function (inputObj) {
-  var newDialogPanel = createNewDialogPanel(inputObj);
+  var newDialogPanel = createNewDialogPanel(inputObj).querySelector('.dialog__panel');
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
   dialogPanelParent.replaceChild(newDialogPanel, oldDialogPanel);
+  oldDialogPanel = newDialogPanel;
 };
 
-changeDialogContent(ads[0]);
+var RANDOM_ID = 2;
+changeDialogContent(ads[RANDOM_ID]);
+
+var getOfferByID = function (pin) {
+  var pinID = pin.dataset.searchIndex;
+  return ads[pinID];
+};
+
+var deactivatePin = function () {
+  if (activePin) {
+    activePin.classList.remove(PIN_ACTIVE_CLASS);
+  }
+};
+
+var activateCurrentPin = function (pin) {
+  deactivatePin();
+  activePin = pin;
+  activePin.classList.add(PIN_ACTIVE_CLASS);
+};
+
+var getRandomPin = function (id) {
+  var pin = tokyoPinMap.querySelector('.pin[data-search-index="' + id + '"]');
+  return pin;
+};
+
+activateCurrentPin(getRandomPin(RANDOM_ID));
+
+var openDialog = function (pin) {
+  changeDialogContent(getOfferByID(pin));
+  dialogPanelParent.classList.remove('hidden');
+  document.addEventListener('keydown', onCloseDialogEscPress);
+};
+
+var closeDialog = function () {
+  deactivatePin();
+  dialogPanelParent.classList.add('hidden');
+  document.removeEventListener('keydown', onCloseDialogEscPress);
+};
+
+var onOpenDialogClick = function (evt) {
+  var currentPin = evt.target.closest('.pin:not(.pin__main)');
+  if (currentPin) {
+    activateCurrentPin(currentPin);
+    openDialog(currentPin);
+  }
+};
+
+var onOpenDialogEnterPress = function (evt) {
+  var currentPin = evt.target.closest('.pin:not(.pin__main)');
+  if (evt.keyCode === ENTER_CODE && currentPin) {
+    activateCurrentPin(currentPin);
+    openDialog(activePin);
+  }
+};
+
+var onClickCloseButton = function () {
+  closeDialog();
+};
+
+var onCloseDialogEscPress = function (evt) {
+  if (evt.keyCode === ESC_CODE && activePin) {
+    closeDialog();
+  }
+};
+
+closeButton.addEventListener('click', onClickCloseButton);
+document.addEventListener('keydown', onCloseDialogEscPress);
+tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
+tokyoPinMap.addEventListener('click', onOpenDialogClick);
