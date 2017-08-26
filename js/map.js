@@ -17,6 +17,8 @@ var activePin;
 var closeButton = document.querySelector('.dialog__close');
 var oldDialogPanel = document.querySelector('.dialog__panel');
 var dialogPanelParent = oldDialogPanel.parentNode;
+var ESC_CODE = 27;
+var ENTER_CODE = 13;
 
 var getValueFromRange = function (min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -86,6 +88,22 @@ var generatePointer = function (adObject) {
   return pointer;
 };
 
+var checkEnterPress = function (evt) {
+  return evt.keyCode === ENTER_CODE && document.activeElement.parentNode.classList.contains('pin');
+};
+
+var onEnterPressActivatePin = function (evt) {
+  if (checkEnterPress(evt)) {
+    if (activePin) {
+      activePin.classList.remove(PIN_ACTIVE_CLASS);
+    }
+    activePin = document.activeElement.parentNode;
+    activePin.classList.add(PIN_ACTIVE_CLASS);
+    changeDialogContent(getOfferByID(activePin));
+    oldDialogPanel.parentNode.classList.remove('hidden');
+  }
+};
+
 for (var i = 0; i < NUMBER_OF_ADS; i++) {
   ads[i] = defineAdObject();
   pointsFragment.appendChild(generatePointer(ads[i]));
@@ -142,7 +160,7 @@ var changeDialogContent = function (inputObj) {
 
 changeDialogContent(ads[0]);
 
-var findArrayElement = function (clickedPin) {
+var getOfferByID = function (clickedPin) {
   var pinID = clickedPin.id;
   return ads[pinID];
 };
@@ -155,38 +173,36 @@ tokyoPinMap.addEventListener('click', function (evt) {
   if (clickedPin) {
     activePin = clickedPin;
     activePin.classList.add(PIN_ACTIVE_CLASS);
-    changeDialogContent(findArrayElement(clickedPin));
-    document.querySelector('.dialog__panel').parentNode.classList.remove('hidden');
+    changeDialogContent(getOfferByID(clickedPin));
+    oldDialogPanel.parentNode.classList.remove('hidden');
   }
 });
 
-closeButton.addEventListener('click', function () {
-  document.querySelector('.dialog__panel').parentNode.classList.add('hidden');
+var onClickCloseButton = function () {
+  oldDialogPanel.parentNode.classList.add('hidden');
   if (activePin) {
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
-});
+};
 
-document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 27 && (activePin)) {
-    document.querySelector('.dialog__panel').parentNode.classList.add('hidden');
+closeButton.addEventListener('click', onClickCloseButton);
+
+var onCloseDialogEscPress = function (evt) {
+  if (evt.keyCode === ESC_CODE && (activePin)) {
+    oldDialogPanel.parentNode.classList.add('hidden');
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
+};
 
-  if (evt.keyCode === 13 && document.activeElement.parentNode.classList.contains('pin')) {
-    if (activePin) {
-      activePin.classList.remove(PIN_ACTIVE_CLASS);
-    }
-    activePin = document.activeElement.parentNode;
-    activePin.classList.add(PIN_ACTIVE_CLASS);
-    changeDialogContent(findArrayElement(activePin));
-    document.querySelector('.dialog__panel').parentNode.classList.remove('hidden');
-  }
-
-  if (evt.keyCode === 27 && document.activeElement === closeButton) {
-    document.querySelector('.dialog__panel').parentNode.classList.add('hidden');
+var onCloseButtonEnterPress = function (evt) {
+  if (evt.keyCode === ENTER_CODE && document.activeElement === closeButton) {
+    oldDialogPanel.parentNode.classList.add('hidden');
     if (activePin) {
       activePin.classList.remove(PIN_ACTIVE_CLASS);
     }
   }
-});
+};
+
+document.addEventListener('keydown', onCloseDialogEscPress);
+document.addEventListener('keydown', onEnterPressActivatePin);
+document.addEventListener('keydown', onCloseButtonEnterPress);
