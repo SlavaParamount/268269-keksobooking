@@ -88,22 +88,6 @@ var generatePointer = function (adObject) {
   return pointer;
 };
 
-var checkEnterPress = function (evt) {
-  return evt.keyCode === ENTER_CODE && document.activeElement.parentNode.classList.contains('pin');
-};
-
-var onEnterPressActivatePin = function (evt) {
-  if (checkEnterPress(evt)) {
-    if (activePin) {
-      activePin.classList.remove(PIN_ACTIVE_CLASS);
-    }
-    activePin = document.activeElement.parentNode;
-    activePin.classList.add(PIN_ACTIVE_CLASS);
-    changeDialogContent(getOfferByID(activePin));
-    oldDialogPanel.parentNode.classList.remove('hidden');
-  }
-};
-
 for (var i = 0; i < NUMBER_OF_ADS; i++) {
   ads[i] = defineAdObject();
   pointsFragment.appendChild(generatePointer(ads[i]));
@@ -165,44 +149,49 @@ var getOfferByID = function (clickedPin) {
   return ads[pinID];
 };
 
-tokyoPinMap.addEventListener('click', function (evt) {
-  var clickedPin = evt.target.closest('.pin:not(.pin__main)');
+var deactivatePin = function () {
   if (activePin) {
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
-  if (clickedPin) {
-    activePin = clickedPin;
+}
+
+tokyoPinMap.addEventListener('click', function (evt) {
+  var currentPin = evt.target.closest('.pin:not(.pin__main)');
+  deactivatePin();
+  if (currentPin) {
+    activePin = currentPin;
     activePin.classList.add(PIN_ACTIVE_CLASS);
-    changeDialogContent(getOfferByID(clickedPin));
-    oldDialogPanel.parentNode.classList.remove('hidden');
+    changeDialogContent(getOfferByID(currentPin));
+    dialogPanelParent.classList.remove('hidden');
   }
 });
 
+var checkEnterPress = function (evt) {
+  return evt.keyCode === ENTER_CODE && document.activeElement.parentNode.classList.contains('pin');
+};
+
+var onEnterPressActivatePin = function (evt) {
+  if (checkEnterPress(evt)) {
+    deactivatePin();
+    activePin = document.activeElement.parentNode;
+    activePin.classList.add(PIN_ACTIVE_CLASS);
+    changeDialogContent(getOfferByID(activePin));
+    dialogPanelParent.classList.remove('hidden');
+  }
+};
+
 var onClickCloseButton = function () {
-  oldDialogPanel.parentNode.classList.add('hidden');
-  if (activePin) {
+  dialogPanelParent.classList.add('hidden');
+  deactivatePin();
+};
+
+var onCloseDialogEscPress = function (evt) {
+  if (evt.keyCode === ESC_CODE && activePin) {
+    dialogPanelParent.classList.add('hidden');
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
 };
 
 closeButton.addEventListener('click', onClickCloseButton);
-
-var onCloseDialogEscPress = function (evt) {
-  if (evt.keyCode === ESC_CODE && activePin) {
-    oldDialogPanel.parentNode.classList.add('hidden');
-    activePin.classList.remove(PIN_ACTIVE_CLASS);
-  }
-};
-
-var onCloseButtonEnterPress = function (evt) {
-  if (evt.keyCode === ENTER_CODE && document.activeElement === closeButton) {
-    oldDialogPanel.parentNode.classList.add('hidden');
-    if (activePin) {
-      activePin.classList.remove(PIN_ACTIVE_CLASS);
-    }
-  }
-};
-
 document.addEventListener('keydown', onCloseDialogEscPress);
-document.addEventListener('keydown', onEnterPressActivatePin);
-document.addEventListener('keydown', onCloseButtonEnterPress);
+tokyoPinMap.addEventListener('keydown', onEnterPressActivatePin);
