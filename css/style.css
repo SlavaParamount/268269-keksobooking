@@ -627,6 +627,7 @@ select option:hover {
     left: 536px;
 
     background-image: url("../img/pin.png");
+    outline: none;
 }
 
 .pin:hover {
