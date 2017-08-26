@@ -188,7 +188,7 @@ var onClickCloseButton = function () {
 closeButton.addEventListener('click', onClickCloseButton);
 
 var onCloseDialogEscPress = function (evt) {
-  if (evt.keyCode === ESC_CODE && (activePin)) {
+  if (evt.keyCode === ESC_CODE && activePin) {
     oldDialogPanel.parentNode.classList.add('hidden');
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
