@@ -153,7 +153,7 @@ var deactivatePin = function () {
   if (activePin) {
     activePin.classList.remove(PIN_ACTIVE_CLASS);
   }
-}
+};
 
 tokyoPinMap.addEventListener('click', function (evt) {
   var currentPin = evt.target.closest('.pin:not(.pin__main)');
