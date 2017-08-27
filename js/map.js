@@ -134,7 +134,7 @@ var createNewDialogPanel = function (offerObj) {
   return offer;
 
 };
-
+// Блок работы с пинами
 var changeDialogContent = function (inputObj) {
   var newDialogPanel = createNewDialogPanel(inputObj).querySelector('.dialog__panel');
   dialogTitle.querySelector('img').src = inputObj.author.avatar;
@@ -211,3 +211,16 @@ closeButton.addEventListener('click', onClickCloseButton);
 document.addEventListener('keydown', onCloseDialogEscPress);
 tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
 tokyoPinMap.addEventListener('click', onOpenDialogClick);
+
+// Блок валидации формы
+
+var offerFormHeader = document.querySelector('.offer-form-header');
+
+offerFormHeader.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 30 || target.value.length > 100) {
+    target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
+  } else {
+    target.setCustomValidity('');
+  }
+});
