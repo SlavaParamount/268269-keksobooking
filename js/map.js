@@ -218,15 +218,15 @@ var offerFormHeader = document.getElementById('title');
 var checkinInput = document.querySelector('#timein');
 var checkoutInput = document.querySelector('#timeout');
 var checkoutOptions = checkoutInput.options;
+var houseType = document.querySelector('#type');
+var housePrice = document.querySelector('#price');
 
 offerFormHeader.addEventListener('input', function (evt) {
   var target = evt.target;
   if (target.value.length < 30 || target.value.length > 100) {
     target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
-    console.log('1');
   } else {
     target.setCustomValidity('');
-    console.log('2');
   }
 });
 
@@ -237,5 +237,27 @@ checkinInput.addEventListener('change', function (evt) {
     if (checkoutOptions[j].value === valueSelected) {
       checkoutInput.options[j].selected = true;
     }
+  }
+});
+
+houseType.addEventListener('change', function (evt) {
+  var target = evt.target;
+  switch (target.value) {
+    case 'bungalo':
+      housePrice.min = 0;
+      housePrice.value = 0;
+      break;
+    case 'flat':
+      housePrice.min = 1000;
+      housePrice.value = 1000;
+      break;
+    case 'house':
+      housePrice.min = 5000;
+      housePrice.value = 5000;
+      break;
+    case 'palace':
+      housePrice.min = 10000;
+      housePrice.value = 10000;
+      break;
   }
 });
