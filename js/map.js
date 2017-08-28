@@ -217,30 +217,24 @@ tokyoPinMap.addEventListener('click', onOpenDialogClick);
 var offerFormHeader = document.getElementById('title');
 var checkinInput = document.querySelector('#timein');
 var checkoutInput = document.querySelector('#timeout');
-var checkoutOptions = checkoutInput.options;
 var houseType = document.querySelector('#type');
 var housePrice = document.querySelector('#price');
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+var formButton = document.querySelector('.form__submit');
+var sendOfferForm = document.querySelector('.notice__form');
+var allInput = sendOfferForm.querySelectorAll('input');
 
-offerFormHeader.addEventListener('input', function (evt) {
+var checkHeaderString = function (evt) {
   var target = evt.target;
   if (target.value.length < 30 || target.value.length > 100) {
     target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
   } else {
     target.setCustomValidity('');
   }
-});
+};
 
-checkinInput.addEventListener('change', function (evt) {
-  var target = evt.target;
-  var valueSelected = target.options[target.selectedIndex].value;
-  for (var j = 0; j < checkoutOptions.length; j++) {
-    if (checkoutOptions[j].value === valueSelected) {
-      checkoutInput.options[j].selected = true;
-    }
-  }
-});
-
-houseType.addEventListener('change', function (evt) {
+var setMinPrice = function (evt) {
   var target = evt.target;
   switch (target.value) {
     case 'bungalo':
@@ -260,4 +254,66 @@ houseType.addEventListener('change', function (evt) {
       housePrice.value = 10000;
       break;
   }
-});
+};
+
+var synchCheckout = function (evt) {
+  checkoutInput.value = evt.target.value;
+};
+
+var synchCheckin = function (evt) {
+  checkinInput.value = evt.target.value;
+};
+
+var setGuestAmount = function (evt) {
+  switch (evt.target.value) {
+    case '1':
+      capacity.options[0].classList.add('hidden');
+      capacity.options[1].classList.add('hidden');
+      capacity.options[2].classList.remove('hidden');
+      capacity.options[3].classList.add('hidden');
+      capacity.options[2].selected = true;
+      break;
+    case '2':
+      capacity.options[0].classList.add('hidden');
+      capacity.options[1].classList.remove('hidden');
+      capacity.options[2].classList.remove('hidden');
+      capacity.options[3].classList.add('hidden');
+      capacity.options[1].selected = true;
+      break;
+    case '3':
+      capacity.options[0].classList.remove('hidden');
+      capacity.options[1].classList.remove('hidden');
+      capacity.options[2].classList.remove('hidden');
+      capacity.options[3].classList.add('hidden');
+      capacity.options[0].selected = true;
+      break;
+    case '100':
+      capacity.options[0].classList.add('hidden');
+      capacity.options[1].classList.add('hidden');
+      capacity.options[2].classList.add('hidden');
+      capacity.options[3].classList.remove('hidden');
+      capacity.options[3].selected = true;
+      break;
+  }
+};
+
+var checkValid = function (evt) {
+  for (i = 0; i < allInput.length; i++) {
+    console.log(allInput[i]);
+    console.log(allInput[i].valid);
+    if (!allInput[i].valid) {
+      allInput[i].style.outline = '2px solid red';
+      evt.preventDefault();
+    } else if (allInput[i].style.outline && allInput[i].valid) {
+      allInput[i].style.outline = '';
+    }
+  }
+};
+
+offerFormHeader.addEventListener('change', checkHeaderString);
+checkinInput.addEventListener('change', synchCheckout);
+checkoutInput.addEventListener('change', synchCheckin);
+houseType.addEventListener('change', setMinPrice);
+roomNumber.addEventListener('change', setGuestAmount);
+formButton.addEventListener('click', checkValid);
+
