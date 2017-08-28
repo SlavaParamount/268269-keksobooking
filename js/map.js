@@ -214,13 +214,28 @@ tokyoPinMap.addEventListener('click', onOpenDialogClick);
 
 // Блок валидации формы
 
-var offerFormHeader = document.querySelector('.offer-form-header');
+var offerFormHeader = document.getElementById('title');
+var checkinInput = document.querySelector('#timein');
+var checkoutInput = document.querySelector('#timeout');
+var checkoutOptions = checkoutInput.options;
 
 offerFormHeader.addEventListener('input', function (evt) {
   var target = evt.target;
   if (target.value.length < 30 || target.value.length > 100) {
     target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
+    console.log('1');
   } else {
     target.setCustomValidity('');
+    console.log('2');
+  }
+});
+
+checkinInput.addEventListener('change', function (evt) {
+  var target = evt.target;
+  var valueSelected = target.options[target.selectedIndex].value;
+  for (var j = 0; j < checkoutOptions.length; j++) {
+    if (checkoutOptions[j].value === valueSelected) {
+      checkoutInput.options[j].selected = true;
+    }
   }
 });
