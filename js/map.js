@@ -215,7 +215,6 @@ tokyoPinMap.addEventListener('click', onOpenDialogClick);
 // Блок валидации формы
 
 var offerFormHeader = document.getElementById('title');
-var adressForm = document.getElementById('address');
 var checkinInput = document.querySelector('#timein');
 var checkoutInput = document.querySelector('#timeout');
 var houseType = document.querySelector('#type');
@@ -234,6 +233,9 @@ var GUESTS_AMOUNT = {
   HUNDRED_ROOMS: ['0']
 };
 
+housePrice.value = '1000';
+housePrice.min = '1000';
+
 var onRoomNumberChange = function (inputArray) {
   var maxGuest = 0;
   for (i = 0; i < capacity.options.length; i++) {
@@ -246,27 +248,6 @@ var onRoomNumberChange = function (inputArray) {
     }
   }
   capacity.value = maxGuest;
-};
-
-var onFormSubmit = function () {
-  offerFormHeader.value = '';
-  adressForm.value = '';
-  houseType.value = 'flat';
-  housePrice.value = '1000';
-  housePrice.min = '1000';
-  housePrice.value = '';
-  checkinInput.value = '12:00';
-  checkoutInput.value = '12:00';
-  roomNumber.value = '1';
-  onRoomNumberChange(GUESTS_AMOUNT.ONE_ROOM);
-};
-
-var onOfferHeaderChange = function () {
-  if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
-    offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
-  } else {
-    offerFormHeader.setCustomValidity('');
-  }
 };
 
 var onHouseTypeChangeSetPrice = function (evt) {
@@ -317,6 +298,12 @@ var onHouseTypeChange = function (evt) {
 };
 
 var onFormButtonClick = function (evt) {
+  if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
+    offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
+  } else {
+    offerFormHeader.setCustomValidity('');
+  }
+
   for (i = 0; i < allInput.length; i++) {
     if (!allInput[i].validity.valid) {
       allInput[i].style.border = '2px solid red';
@@ -327,13 +314,8 @@ var onFormButtonClick = function (evt) {
   }
 };
 
-onFormSubmit();
-
-sendOfferForm.addEventListener('submit', onFormSubmit);
-offerFormHeader.addEventListener('focusout', onOfferHeaderChange);
 checkinInput.addEventListener('change', onCheckinChange);
 checkoutInput.addEventListener('change', onCheckoutChange);
 houseType.addEventListener('change', onHouseTypeChangeSetPrice);
 roomNumber.addEventListener('change', onHouseTypeChange);
 formButton.addEventListener('click', onFormButtonClick);
-
