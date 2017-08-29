@@ -215,6 +215,7 @@ tokyoPinMap.addEventListener('click', onOpenDialogClick);
 // Блок валидации формы
 
 var offerFormHeader = document.getElementById('title');
+var adressForm = document.getElementById('address');
 var checkinInput = document.querySelector('#timein');
 var checkoutInput = document.querySelector('#timeout');
 var houseType = document.querySelector('#type');
@@ -245,6 +246,17 @@ var defineAvailableGuestAmount = function (inputArray) {
     }
   }
   capacity.value = maxGuest;
+};
+
+var setDefalutValues = function () {
+  offerFormHeader.value = '';
+  adressForm.value = '';
+  houseType.value = 'flat';
+  housePrice.value = '';
+  checkinInput.value = '12:00';
+  checkoutInput.value = '12:00';
+  roomNumber.value = '1';
+  defineAvailableGuestAmount(GUESTS_AMOUNT.ONE_ROOM);
 };
 
 var checkHeaderString = function (evt) {
@@ -314,6 +326,9 @@ var checkValid = function (evt) {
   }
 };
 
+setDefalutValues();
+
+sendOfferForm.addEventListener('submit', setDefalutValues);
 offerFormHeader.addEventListener('change', checkHeaderString);
 checkinInput.addEventListener('change', synchCheckout);
 checkoutInput.addEventListener('change', synchCheckin);
