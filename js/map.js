@@ -253,6 +253,7 @@ var onFormSubmit = function () {
   adressForm.value = '';
   houseType.value = 'flat';
   housePrice.value = '1000';
+  housePrice.min = '1000';
   housePrice.value = '';
   checkinInput.value = '12:00';
   checkoutInput.value = '12:00';
@@ -260,33 +261,32 @@ var onFormSubmit = function () {
   onRoomNumberChange(GUESTS_AMOUNT.ONE_ROOM);
 };
 
-var onOfferHeaderChange = function (evt) {
-  var target = evt.target;
-  if (target.value.length < HEADER_MIN_LENGTH || target.value.length > HEADER_MAX_LENGTH) {
-    target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
+var onOfferHeaderChange = function () {
+  if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
+    offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
   } else {
-    target.setCustomValidity('');
+    offerFormHeader.setCustomValidity('');
   }
 };
 
-var setMinPrice = function (evt) {
+var onHouseTypeChangeSetPrice = function (evt) {
   var target = evt.target;
   switch (target.value) {
     case 'bungalo':
-      housePrice.min = 0;
-      housePrice.value = 0;
+      housePrice.min = '0';
+      housePrice.value = '0';
       break;
     case 'flat':
-      housePrice.min = 1000;
-      housePrice.value = 1000;
+      housePrice.min = '1000';
+      housePrice.value = '1000';
       break;
     case 'house':
-      housePrice.min = 5000;
-      housePrice.value = 5000;
+      housePrice.min = '5000';
+      housePrice.value = '5000';
       break;
     case 'palace':
-      housePrice.min = 10000;
-      housePrice.value = 10000;
+      housePrice.min = '10000';
+      housePrice.value = '10000';
       break;
   }
 };
@@ -330,10 +330,10 @@ var onFormButtonClick = function (evt) {
 onFormSubmit();
 
 sendOfferForm.addEventListener('submit', onFormSubmit);
-offerFormHeader.addEventListener('change', onOfferHeaderChange);
+offerFormHeader.addEventListener('focusout', onOfferHeaderChange);
 checkinInput.addEventListener('change', onCheckinChange);
 checkoutInput.addEventListener('change', onCheckoutChange);
-houseType.addEventListener('change', setMinPrice);
+houseType.addEventListener('change', onHouseTypeChangeSetPrice);
 roomNumber.addEventListener('change', onHouseTypeChange);
 formButton.addEventListener('click', onFormButtonClick);
 
