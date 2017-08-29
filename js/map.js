@@ -234,7 +234,6 @@ var GUESTS_AMOUNT = {
 };
 
 var defineAvailableGuestAmount = function (inputArray) {
-  var numbersOfGuests = GUESTS_AMOUNT[inputArray];
   var maxGuest = 0;
   for (i = 0; i < capacity.options.length; i++) {
     var option = capacity[i];
