@@ -224,10 +224,33 @@ var capacity = document.querySelector('#capacity');
 var formButton = document.querySelector('.form__submit');
 var sendOfferForm = document.querySelector('.notice__form');
 var allInput = sendOfferForm.querySelectorAll('input');
+var HEADER_MIN_LENGTH = 30;
+var HEADER_MAX_LENGTH = 100;
+var GUESTS_AMOUNT = {
+  ONE_ROOM: ['1'],
+  TWO_ROOMS: ['1', '2'],
+  THREE_ROOMS: ['1', '2', '3'],
+  HUNDRED_ROOMS: ['0']
+};
+
+var defineAvailableGuestAmount = function (inputArray) {
+  var numbersOfGuests = GUESTS_AMOUNT[inputArray];
+  var maxGuest = 0;
+  for (i = 0; i < capacity.options.length; i++) {
+    var option = capacity[i];
+    if (inputArray.indexOf(option.value) === -1) {
+      option.disabled = true;
+    } else {
+      option.disabled = false;
+      maxGuest = option.value > maxGuest ? option.value : maxGuest;
+    }
+  }
+  capacity.value = maxGuest;
+};
 
 var checkHeaderString = function (evt) {
   var target = evt.target;
-  if (target.value.length < 30 || target.value.length > 100) {
+  if (target.value.length < HEADER_MIN_LENGTH || target.value.length > HEADER_MAX_LENGTH) {
     target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
   } else {
     target.setCustomValidity('');
@@ -267,44 +290,26 @@ var synchCheckin = function (evt) {
 var setGuestAmount = function (evt) {
   switch (evt.target.value) {
     case '1':
-      capacity.options[0].classList.add('hidden');
-      capacity.options[1].classList.add('hidden');
-      capacity.options[2].classList.remove('hidden');
-      capacity.options[3].classList.add('hidden');
-      capacity.options[2].selected = true;
+      defineAvailableGuestAmount(GUESTS_AMOUNT.ONE_ROOM);
       break;
     case '2':
-      capacity.options[0].classList.add('hidden');
-      capacity.options[1].classList.remove('hidden');
-      capacity.options[2].classList.remove('hidden');
-      capacity.options[3].classList.add('hidden');
-      capacity.options[1].selected = true;
+      defineAvailableGuestAmount(GUESTS_AMOUNT.TWO_ROOMS);
       break;
     case '3':
-      capacity.options[0].classList.remove('hidden');
-      capacity.options[1].classList.remove('hidden');
-      capacity.options[2].classList.remove('hidden');
-      capacity.options[3].classList.add('hidden');
-      capacity.options[0].selected = true;
+      defineAvailableGuestAmount(GUESTS_AMOUNT.THREE_ROOMS);
       break;
     case '100':
-      capacity.options[0].classList.add('hidden');
-      capacity.options[1].classList.add('hidden');
-      capacity.options[2].classList.add('hidden');
-      capacity.options[3].classList.remove('hidden');
-      capacity.options[3].selected = true;
+      defineAvailableGuestAmount(GUESTS_AMOUNT.HUNDRED_ROOMS);
       break;
   }
 };
 
 var checkValid = function (evt) {
   for (i = 0; i < allInput.length; i++) {
-    console.log(allInput[i]);
-    console.log(allInput[i].valid);
-    if (!allInput[i].valid) {
+    if (!allInput[i].validity.valid) {
       allInput[i].style.outline = '2px solid red';
       evt.preventDefault();
-    } else if (allInput[i].style.outline && allInput[i].valid) {
+    } else if (allInput[i].style.outline && allInput[i].validity.valid) {
       allInput[i].style.outline = '';
     }
   }
