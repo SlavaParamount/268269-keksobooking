@@ -234,7 +234,7 @@ var GUESTS_AMOUNT = {
   HUNDRED_ROOMS: ['0']
 };
 
-var defineAvailableGuestAmount = function (inputArray) {
+var onRoomNumberChange = function (inputArray) {
   var maxGuest = 0;
   for (i = 0; i < capacity.options.length; i++) {
     var option = capacity[i];
@@ -248,18 +248,19 @@ var defineAvailableGuestAmount = function (inputArray) {
   capacity.value = maxGuest;
 };
 
-var setDefalutValues = function () {
+var onFormSubmit = function () {
   offerFormHeader.value = '';
   adressForm.value = '';
   houseType.value = 'flat';
+  housePrice.value = '1000';
   housePrice.value = '';
   checkinInput.value = '12:00';
   checkoutInput.value = '12:00';
   roomNumber.value = '1';
-  defineAvailableGuestAmount(GUESTS_AMOUNT.ONE_ROOM);
+  onRoomNumberChange(GUESTS_AMOUNT.ONE_ROOM);
 };
 
-var checkHeaderString = function (evt) {
+var onOfferHeaderChange = function (evt) {
   var target = evt.target;
   if (target.value.length < HEADER_MIN_LENGTH || target.value.length > HEADER_MAX_LENGTH) {
     target.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
@@ -290,49 +291,49 @@ var setMinPrice = function (evt) {
   }
 };
 
-var synchCheckout = function (evt) {
+var onCheckinChange = function (evt) {
   checkoutInput.value = evt.target.value;
 };
 
-var synchCheckin = function (evt) {
+var onCheckoutChange = function (evt) {
   checkinInput.value = evt.target.value;
 };
 
-var setGuestAmount = function (evt) {
+var onHouseTypeChange = function (evt) {
   switch (evt.target.value) {
     case '1':
-      defineAvailableGuestAmount(GUESTS_AMOUNT.ONE_ROOM);
+      onRoomNumberChange(GUESTS_AMOUNT.ONE_ROOM);
       break;
     case '2':
-      defineAvailableGuestAmount(GUESTS_AMOUNT.TWO_ROOMS);
+      onRoomNumberChange(GUESTS_AMOUNT.TWO_ROOMS);
       break;
     case '3':
-      defineAvailableGuestAmount(GUESTS_AMOUNT.THREE_ROOMS);
+      onRoomNumberChange(GUESTS_AMOUNT.THREE_ROOMS);
       break;
     case '100':
-      defineAvailableGuestAmount(GUESTS_AMOUNT.HUNDRED_ROOMS);
+      onRoomNumberChange(GUESTS_AMOUNT.HUNDRED_ROOMS);
       break;
   }
 };
 
-var checkValid = function (evt) {
+var onFormButtonClick = function (evt) {
   for (i = 0; i < allInput.length; i++) {
     if (!allInput[i].validity.valid) {
-      allInput[i].style.outline = '2px solid red';
+      allInput[i].style.border = '2px solid red';
       evt.preventDefault();
-    } else if (allInput[i].style.outline && allInput[i].validity.valid) {
-      allInput[i].style.outline = '';
+    } else if (allInput[i].style.border && allInput[i].validity.valid) {
+      allInput[i].style.border = '';
     }
   }
 };
 
-setDefalutValues();
+onFormSubmit();
 
-sendOfferForm.addEventListener('submit', setDefalutValues);
-offerFormHeader.addEventListener('change', checkHeaderString);
-checkinInput.addEventListener('change', synchCheckout);
-checkoutInput.addEventListener('change', synchCheckin);
+sendOfferForm.addEventListener('submit', onFormSubmit);
+offerFormHeader.addEventListener('change', onOfferHeaderChange);
+checkinInput.addEventListener('change', onCheckinChange);
+checkoutInput.addEventListener('change', onCheckoutChange);
 houseType.addEventListener('change', setMinPrice);
-roomNumber.addEventListener('change', setGuestAmount);
-formButton.addEventListener('click', checkValid);
+roomNumber.addEventListener('change', onHouseTypeChange);
+formButton.addEventListener('click', onFormButtonClick);
 
