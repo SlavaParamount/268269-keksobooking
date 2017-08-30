@@ -1,11 +1,6 @@
 'use strict';
 var ads = [];
 var NUMBER_OF_ADS = 8;
-var HEADINGS = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
-var TYPES = ['flat', 'house', 'bungalo'];
-var IMG_INDEXES = [1, 2, 3, 4, 5, 6, 7, 8];
-var CHECKINS = ['12:00', '13.00', '14.00'];
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var pointsFragment = document.createDocumentFragment();
 var POINTER_HEIGHT = 75;
 var POINTER_WIDTH = 56;
@@ -20,57 +15,6 @@ var dialogPanelParent = oldDialogPanel.parentNode;
 var ESC_CODE = 27;
 var ENTER_CODE = 13;
 
-var getValueFromRange = function (min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-};
-
-var randomizeArray = function (arr) {
-  var arrCopy = arr.slice();
-  var arrLength = arrCopy.length;
-  var finalArray = [];
-  for (var i = 0; i < arr.length; i++) {
-    var randomIndex = getValueFromRange(0, arrLength - i);
-    finalArray[i] = arrCopy.splice(randomIndex, 1)[0];
-  }
-  return finalArray;
-};
-
-var generateFeatures = function () {
-  var FEATURES_RAND = randomizeArray(FEATURES);
-  var featuresNumber = getValueFromRange(1, FEATURES_RAND.length);
-  var featuresArray = FEATURES_RAND.splice(0, featuresNumber);
-  return featuresArray;
-};
-
-
-var HEADINGS_RAND = randomizeArray(HEADINGS);
-var IMG_INDEXES_RAND = randomizeArray(IMG_INDEXES);
-
-var defineAdObject = function () {
-  var adObject = {
-    'author': {
-      'avatar': 'img/avatars/user0' + IMG_INDEXES_RAND[i] + '.png'
-    },
-    'offer': {
-      'title': HEADINGS_RAND[i],
-      'price': getValueFromRange(1000, 1000000),
-      'type': TYPES[getValueFromRange(0, TYPES.length)],
-      'rooms': getValueFromRange(1, 5),
-      'guests': getValueFromRange(1, 10),
-      'checkin': CHECKINS[getValueFromRange(0, CHECKINS.length)],
-      'checkout': CHECKINS[getValueFromRange(0, CHECKINS.length)],
-      'features': generateFeatures(),
-      'description': '',
-      'photos': [],
-    },
-    'location': {
-      'x': getValueFromRange(400, 900),
-      'y': getValueFromRange(100, 500),
-    }
-  };
-  adObject.offer.adress = adObject.location.x + ', ' + adObject.location.y;
-  return adObject;
-};
 
 var generatePointer = function (adObject) {
   var pointer = document.createElement('div');
@@ -89,7 +33,7 @@ var generatePointer = function (adObject) {
 };
 
 for (var i = 0; i < NUMBER_OF_ADS; i++) {
-  ads[i] = defineAdObject();
+  ads[i] = window.defineAdObject(i);
   pointsFragment.appendChild(generatePointer(ads[i]));
 }
 
@@ -211,111 +155,3 @@ closeButton.addEventListener('click', onClickCloseButton);
 document.addEventListener('keydown', onCloseDialogEscPress);
 tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
 tokyoPinMap.addEventListener('click', onOpenDialogClick);
-
-// Блок валидации формы
-
-var offerFormHeader = document.getElementById('title');
-var checkinInput = document.querySelector('#timein');
-var checkoutInput = document.querySelector('#timeout');
-var houseType = document.querySelector('#type');
-var housePrice = document.querySelector('#price');
-var roomNumber = document.querySelector('#room_number');
-var capacity = document.querySelector('#capacity');
-var formButton = document.querySelector('.form__submit');
-var sendOfferForm = document.querySelector('.notice__form');
-var allInput = sendOfferForm.querySelectorAll('input');
-var HEADER_MIN_LENGTH = 30;
-var HEADER_MAX_LENGTH = 100;
-var GUESTS_AMOUNT = {
-  ONE_ROOM: ['1'],
-  TWO_ROOMS: ['1', '2'],
-  THREE_ROOMS: ['1', '2', '3'],
-  HUNDRED_ROOMS: ['0']
-};
-
-housePrice.value = '1000';
-housePrice.min = '1000';
-
-var onRoomNumberChange = function (inputArray) {
-  var maxGuest = 0;
-  for (i = 0; i < capacity.options.length; i++) {
-    var option = capacity[i];
-    if (inputArray.indexOf(option.value) === -1) {
-      option.disabled = true;
-    } else {
-      option.disabled = false;
-      maxGuest = option.value > maxGuest ? option.value : maxGuest;
-    }
-  }
-  capacity.value = maxGuest;
-};
-
-var onHouseTypeChangeSetPrice = function (evt) {
-  var target = evt.target;
-  switch (target.value) {
-    case 'bungalo':
-      housePrice.min = '0';
-      housePrice.value = '0';
-      break;
-    case 'flat':
-      housePrice.min = '1000';
-      housePrice.value = '1000';
-      break;
-    case 'house':
-      housePrice.min = '5000';
-      housePrice.value = '5000';
-      break;
-    case 'palace':
-      housePrice.min = '10000';
-      housePrice.value = '10000';
-      break;
-  }
-};
-
-var onCheckinChange = function (evt) {
-  checkoutInput.value = evt.target.value;
-};
-
-var onCheckoutChange = function (evt) {
-  checkinInput.value = evt.target.value;
-};
-
-var onHouseTypeChange = function (evt) {
-  switch (evt.target.value) {
-    case '1':
-      onRoomNumberChange(GUESTS_AMOUNT.ONE_ROOM);
-      break;
-    case '2':
-      onRoomNumberChange(GUESTS_AMOUNT.TWO_ROOMS);
-      break;
-    case '3':
-      onRoomNumberChange(GUESTS_AMOUNT.THREE_ROOMS);
-      break;
-    case '100':
-      onRoomNumberChange(GUESTS_AMOUNT.HUNDRED_ROOMS);
-      break;
-  }
-};
-
-var onFormButtonClick = function (evt) {
-  if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
-    offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
-  } else {
-    offerFormHeader.setCustomValidity('');
-  }
-
-  for (i = 0; i < allInput.length; i++) {
-    if (!allInput[i].validity.valid) {
-      allInput[i].style.border = '2px solid red';
-      evt.preventDefault();
-    } else if (allInput[i].style.border && allInput[i].validity.valid) {
-      allInput[i].style.border = '';
-    }
-  }
-};
-
-checkinInput.addEventListener('change', onCheckinChange);
-checkoutInput.addEventListener('change', onCheckoutChange);
-houseType.addEventListener('change', onHouseTypeChangeSetPrice);
-roomNumber.addEventListener('change', onHouseTypeChange);
-formButton.addEventListener('click', onFormButtonClick);
