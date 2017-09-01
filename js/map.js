@@ -1,9 +1,6 @@
 'use strict';
 var ads = [];
-var NUMBER_OF_ADS = 8;
 var pointsFragment = document.createDocumentFragment();
-var POINTER_HEIGHT = 75;
-var POINTER_WIDTH = 56;
 var tokyoPinMap = document.querySelector('.tokyo__pin-map');
 var lodgeTemplate = document.querySelector('#lodge-template');
 var PIN_ACTIVE_CLASS = 'pin--active';
@@ -16,28 +13,12 @@ var ESC_CODE = 27;
 var ENTER_CODE = 13;
 
 
-var generatePointer = function (adObject) {
-  var pointer = document.createElement('div');
-  pointer.classList.add('pin');
-  pointer.dataset.searchIndex = i;
-  pointer.style.left = (Math.floor((adObject.location.x) - 0.5 * POINTER_WIDTH)) + 'px';
-  pointer.style.top = (adObject.location.y - POINTER_HEIGHT) + 'px';
-  var pointerImage = document.createElement('img');
-  pointerImage.src = adObject.author.avatar;
-  pointer.tabIndex = '0';
-  pointerImage.classList.add('rounded');
-  pointerImage.style.height = '40px';
-  pointerImage.style.width = '40px';
-  pointer.appendChild(pointerImage);
-  return pointer;
-};
 
-for (var i = 0; i < NUMBER_OF_ADS; i++) {
-  ads[i] = window.defineAdObject(i);
-  pointsFragment.appendChild(generatePointer(ads[i]));
-}
 
-tokyoPinMap.appendChild(pointsFragment);
+ads = window.data;
+console.log(ads);
+
+tokyoPinMap.appendChild(window.allPointers);
 
 var createFeatureElement = function (feature) {
   var newFeatureElement = document.createElement('span');
@@ -72,7 +53,7 @@ var createNewDialogPanel = function (offerObj) {
       break;
   }
 
-  for (i = 0; i < offerObj.offer.features.length; i++) {
+  for (var i = 0; i < offerObj.offer.features.length; i++) {
     lodgeFeatures.appendChild(createFeatureElement(offerObj.offer.features[i]));
   }
   return offer;
