@@ -5,7 +5,6 @@
   var closeButton = document.querySelector('.dialog__close');
   var oldDialogPanel = document.querySelector('.dialog__panel');
   var dialogPanelParent = oldDialogPanel.parentNode;
-  var RANDOM_ID = 2;
   var createFeatureElement = function (feature) {
     var newFeatureElement = document.createElement('span');
     newFeatureElement.classList.add('feature__image');
