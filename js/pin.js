@@ -2,10 +2,23 @@
 (function () {
   var POINTER_HEIGHT = 75;
   var POINTER_WIDTH = 56;
+  var PIN_ACTIVE_CLASS = 'pin--active';
+  var activePin;
   var ads = window.data;
-  var pointersFragment = document.createDocumentFragment();
 
-  for (var i = 0; i < ads.length; i++) {
+  var deactivatePin = function () {
+    if (activePin) {
+      activePin.classList.remove(PIN_ACTIVE_CLASS);
+    }
+  };
+
+  var activateCurrentPin = function (pin) {
+    deactivatePin();
+    activePin = pin;
+    activePin.classList.add(PIN_ACTIVE_CLASS);
+  };
+
+  var generatePin = function (i) {
     var pointer = document.createElement('div');
     pointer.classList.add('pin');
     pointer.dataset.searchIndex = i;
@@ -18,8 +31,13 @@
     pointerImage.style.height = '40px';
     pointerImage.style.width = '40px';
     pointer.appendChild(pointerImage);
-    pointersFragment.appendChild(pointer);
-  }
+    return pointer;
+  };
 
-  window.allPointers = pointersFragment;
+  window.pin = {
+    generatePin: generatePin,
+    activateCurrentPin: activateCurrentPin,
+    deactivatePin: deactivatePin,
+  };
+
 }());

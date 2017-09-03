@@ -52,30 +52,5 @@
     // pointsFragment.appendChild(generatePointer(ads[i]));
   }
 
-  var defineAdObject = function (j) {
-    var adObject = {
-      'author': {
-        'avatar': 'img/avatars/user0' + IMG_INDEXES_RAND[j] + '.png'
-      },
-      'offer': {
-        'title': HEADINGS_RAND[j],
-        'price': getValueFromRange(1000, 1000000),
-        'type': TYPES[getValueFromRange(0, TYPES.length)],
-        'rooms': getValueFromRange(1, 5),
-        'guests': getValueFromRange(1, 10),
-        'checkin': CHECKINS[getValueFromRange(0, CHECKINS.length)],
-        'checkout': CHECKINS[getValueFromRange(0, CHECKINS.length)],
-        'features': generateFeatures(),
-        'description': '',
-        'photos': [],
-      },
-      'location': {
-        'x': getValueFromRange(400, 900),
-        'y': getValueFromRange(100, 500),
-      }
-    };
-    adObject.offer.adress = adObject.location.x + ', ' + adObject.location.y;
-    return adObject;
-  };
   window.data = ads;
 }());
