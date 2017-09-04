@@ -4,10 +4,17 @@
   var pinFragment = document.createDocumentFragment();
   var RANDOM_ID;
   var mainPin = tokyoPinMap.querySelector('.pin__main');
+  var mainPinMinX = 400;
+  var mainPinMaxX = 900;
+  var mainPinMinY = 100;
+  var mainPinMaxY = 500;
+  var adressInput = document.getElementById('address');
 
   for (var i = 0; i < window.utils.NUMBER_OF_ADS; i++) {
     pinFragment.appendChild(window.pin.generatePin(i));
   }
+
+  adressInput.disabled = true;
 
   tokyoPinMap.appendChild(pinFragment);
 
@@ -54,15 +61,21 @@
         y: startPosition.y - moveEvt.clientY
       };
 
-      startPosition = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
+      var nextX = mainPin.offsetLeft - shift.x + mainPin.offsetWidth * 0.5;
+      var nextY = mainPin.offsetTop - shift.y + mainPin.offsetHeight;
 
-      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+      if (nextX < mainPinMaxX && nextX > mainPinMinX && nextY > mainPinMinY && nextY < mainPinMaxY) {
+        startPosition = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
+
+        mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+
+        adressInput.value = 'x: ' + Math.floor(nextX) + ', y: ' + Math.floor(nextY);
+      }
     };
-
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
       document.removeEventListener('mousemove', onMouseMove);
