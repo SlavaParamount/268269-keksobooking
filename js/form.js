@@ -60,8 +60,6 @@
 
   var synchValues = function (element, value) {
     element.value = value;
-    console.log(element);
-    console.log(value);
   };
 
   var onCheckinChange = function () {
