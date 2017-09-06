@@ -57,15 +57,21 @@
         break;
     }
   };
-  /*
-  var onCheckinChange = function (evt) {
-    checkoutInput.value = evt.target.value;
+
+  var synchValues = function (element, value) {
+    element.value = value;
+    console.log(element);
+    console.log(value);
   };
 
-  var onCheckoutChange = function (evt) {
-    checkinInput.value = evt.target.value;
+  var onCheckinChange = function () {
+    window.synchronizeFields(checkinInput, checkoutInput, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], synchValues);
   };
-*/
+
+  var onCheckoutChange = function () {
+    window.synchronizeFields(checkoutInput, checkinInput, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], synchValues);
+  };
+
   var onHouseTypeChange = function (evt) {
     switch (evt.target.value) {
       case '1':
@@ -100,12 +106,8 @@
     }
   };
 
-  var synchValues = function (element, value) {
-    element.value = value;
-  };
-
-  checkinInput.addEventListener('change', window.synchronizeFields(checkinInput, checkoutInput, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], synchValues));
-  checkoutInput.addEventListener('change', window.synchronizeFields(checkoutInput, checkinInput, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], synchValues));
+  checkinInput.addEventListener('change', onCheckinChange);
+  checkoutInput.addEventListener('change', onCheckoutChange);
   houseType.addEventListener('change', onHouseTypeChangeSetPrice);
   roomNumber.addEventListener('change', onHouseTypeChange);
   formButton.addEventListener('click', onFormButtonClick);
