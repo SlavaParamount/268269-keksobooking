@@ -25,23 +25,26 @@
     return pin;
   };
 
+  var activatePinCallback = function (pin) {
+    window.pin.activateCurrentPin(pin);
+  };
+
   window.pin.activateCurrentPin(getRandomPin(RANDOM_ID));
 
-  window.card.openDialog(getRandomPin(RANDOM_ID));
+  window.card.openDialog(getRandomPin(RANDOM_ID), activatePinCallback);
+
 
   var onOpenDialogClick = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
     if (currentPin) {
-      window.pin.activateCurrentPin(currentPin);
-      window.card.openDialog(currentPin);
+      window.card.openDialog(currentPin, activatePinCallback);
     }
   };
 
   var onOpenDialogEnterPress = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
     if (window.utils.isEnterPress(evt) && currentPin) {
-      window.pin.activateCurrentPin(currentPin);
-      window.card.openDialog(currentPin);
+      window.card.openDialog(currentPin, activatePinCallback);
     }
   };
 

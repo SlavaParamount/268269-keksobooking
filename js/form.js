@@ -58,12 +58,16 @@
     }
   };
 
-  var onCheckinChange = function (evt) {
-    checkoutInput.value = evt.target.value;
+  var synchValues = function (element, value) {
+    element.value = value;
   };
 
-  var onCheckoutChange = function (evt) {
-    checkinInput.value = evt.target.value;
+  var onCheckinChange = function () {
+    window.synchronizeFields(checkinInput, checkoutInput, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], synchValues);
+  };
+
+  var onCheckoutChange = function () {
+    window.synchronizeFields(checkoutInput, checkinInput, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], synchValues);
   };
 
   var onHouseTypeChange = function (evt) {

@@ -57,10 +57,11 @@
     return window.data[pinID];
   };
 
-  var openDialog = function (pin) {
+  var openDialog = function (pin, callback) {
     changeDialogContent(getOfferByID(pin));
     dialogPanelParent.classList.remove('hidden');
     document.addEventListener('keydown', onCloseDialogEscPress);
+    callback(pin);
   };
 
   var closeDialog = function () {
