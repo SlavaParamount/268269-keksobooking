@@ -52,5 +52,6 @@
     // pointsFragment.appendChild(generatePointer(ads[i]));
   }
 
-  window.data = ads;
+  // window.data = ads;
+  // console.log(window.data);
 }());

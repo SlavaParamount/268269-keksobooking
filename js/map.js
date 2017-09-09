@@ -1,8 +1,6 @@
 'use strict';
 (function () {
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-  var pinFragment = document.createDocumentFragment();
-  var RANDOM_ID;
   var mainPin = tokyoPinMap.querySelector('.pin__main');
   var mainPinMinX = 400;
   var mainPinMaxX = 900;
@@ -10,29 +8,11 @@
   var mainPinMaxY = 500;
   var adressInput = document.getElementById('address');
 
-  for (var i = 0; i < window.utils.NUMBER_OF_ADS; i++) {
-    pinFragment.appendChild(window.pin.generatePin(i));
-  }
-
   adressInput.disabled = true;
-
-  tokyoPinMap.appendChild(pinFragment);
-
-  RANDOM_ID = window.utils.getValueFromRange(0, window.data.length - 1);
-
-  var getRandomPin = function (id) {
-    var pin = document.querySelector('.pin[data-search-index="' + id + '"]');
-    return pin;
-  };
 
   var activatePinCallback = function (pin) {
     window.pin.activateCurrentPin(pin);
   };
-
-  window.pin.activateCurrentPin(getRandomPin(RANDOM_ID));
-
-  window.card.openDialog(getRandomPin(RANDOM_ID), activatePinCallback);
-
 
   var onOpenDialogClick = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
