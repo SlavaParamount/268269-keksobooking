@@ -90,7 +90,7 @@
 
   var formReset = function () {
     form.reset();
-  }
+  };
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
