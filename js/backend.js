@@ -1,65 +1,60 @@
 'use strict';
 (function () {
-  /*
-  var onLoad = function (ads) {
-    console.log(ads);
-  };
+  var URL_GET = 'https://1510.dump.academy/keksobooking/data';
+  var URL_POST = 'https://1510.dump.academy/keksobooking';
 
-  var onError = function (response) {
-    console.log(response);
-  }
-
-
-  window.backend.load = function (onLoad, onError) {
-    var URL = 'https://1510.dump.academy/keksobooking/data';
+  var sendRequest = function (onLoad, onError, url, method, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
-    xhr.open('GET', URL);
+    xhr.timeout = '2000';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError(xhr.response);
+      var errorText;
+
+      switch (xhr.status) {
+        case 200:
+          onLoad(xhr.response);
+          break;
+        case 400:
+          errorText = 'Неверный запрос';
+          break;
+        case 401:
+          errorText = 'Пользователь не авторизован';
+          break;
+        case 404:
+          errorText = 'Ничего не найдено';
+          break;
+        default:
+          errorText = 'Неизвестный статус: ' + xhr.status + ' ' + xhr.statusText;
+      }
+
+      if (errorText) {
+        onError(errorText);
       }
     });
 
-    xhr.send();
+    xhr.open(method, url);
+    xhr.send(data);
   };
-*/
-  var pinFragment = document.createDocumentFragment();
-  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-  var URL = 'https://1510.dump.academy/keksobooking/data';
-  var xhr = new XMLHttpRequest();
-  var RANDOM_ID;
-  xhr.responseType = 'json';
 
-  xhr.open('GET', URL);
+  var showError = function (errorText) {
+    var errorContainer = document.createElement('div');
+    var errorMessage = document.createElement('span');
 
-  xhr.addEventListener('load', function () {
-    window.data = xhr.response;
-    for (var i = 0; i < window.data.length; i++) {
-      pinFragment.appendChild(window.pin.generatePin(i));
-    }
-    tokyoPinMap.appendChild(pinFragment);
+    errorContainer.appendChild(errorMessage);
 
-    RANDOM_ID = window.utils.getValueFromRange(0, window.data.length - 1);
+    errorMessage.textContent = errorText;
 
-    var getRandomPin = function (id) {
-      var pin = document.querySelector('.pin[data-search-index="' + id + '"]');
-      return pin;
-    };
+    document.body.insertAdjacentHTML('afterbegin', errorContainer);
+  };
 
-    var activatePinCallback = function (pin) {
-      window.pin.activateCurrentPin(pin);
-    };
+  window.backendLoad = function (onLoad, onError) {
+    sendRequest(onLoad, onError, URL_GET, 'GET');
+  };
 
-    window.pin.activateCurrentPin(getRandomPin(RANDOM_ID));
+  window.backendSave = function (onLoad, onError, data) {
+    sendRequest(onLoad, onError, URL_POST, 'POST', data);
+  };
 
-    window.card.openDialog(getRandomPin(RANDOM_ID), activatePinCallback);
-  });
-
-  xhr.send();
-
+  window.showError = showError;
 }());

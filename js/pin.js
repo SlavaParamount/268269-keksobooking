@@ -20,7 +20,6 @@
 
   var generatePin = function (i) {
     ads = window.data;
-    console.log(window.data[i]);
     var pointer = document.createElement('div');
     pointer.classList.add('pin');
     pointer.dataset.searchIndex = i;

@@ -6,25 +6,53 @@
   var mainPinMaxX = 900;
   var mainPinMinY = 100;
   var mainPinMaxY = 500;
+  var RANDOM_ID;
+  var pinFragment = document.createDocumentFragment();
   var adressInput = document.getElementById('address');
 
   adressInput.disabled = true;
 
-  var activatePinCallback = function (pin) {
+  var activatePin = function (pin) {
     window.pin.activateCurrentPin(pin);
+  };
+
+  var getRandomPin = function (id) {
+    var pin = document.querySelector('.pin[data-search-index="' + id + '"]');
+    return pin;
+  };
+
+  var activateRandomPin = function () {
+
+    RANDOM_ID = window.utils.getValueFromRange(0, window.data.length - 1);
+
+    window.pin.activateCurrentPin(getRandomPin(RANDOM_ID));
+
+    window.card.openDialog(getRandomPin(RANDOM_ID), activatePin);
+  };
+
+  var putAdsContent = function (data) {
+    var ads = data;
+    window.data = ads;
+    for (var i = 0; i < ads.length; i++) {
+      pinFragment.appendChild(window.pin.generatePin(i));
+    }
+    tokyoPinMap.appendChild(pinFragment);
+
+    activateRandomPin();
+
   };
 
   var onOpenDialogClick = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
     if (currentPin) {
-      window.card.openDialog(currentPin, activatePinCallback);
+      window.card.openDialog(currentPin, activatePin);
     }
   };
 
   var onOpenDialogEnterPress = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
     if (window.utils.isEnterPress(evt) && currentPin) {
-      window.card.openDialog(currentPin, activatePinCallback);
+      window.card.openDialog(currentPin, activatePin);
     }
   };
 
@@ -69,6 +97,7 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  window.backendLoad(putAdsContent, window.showError);
   mainPin.addEventListener('mousedown', onMainPinHandle);
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);
