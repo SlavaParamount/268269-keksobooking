@@ -42,6 +42,7 @@
     });
 
     xhr.open(method, url);
+    console.log(data);
     xhr.send(data);
   };
 
@@ -53,7 +54,7 @@
 
     errorMessage.textContent = errorText;
 
-    document.appendChild(errorContainer);
+    document.body.insertAdjacentElement('afterbegin', errorContainer);
   };
 
   window.backendLoad = function (onLoad, onError) {
