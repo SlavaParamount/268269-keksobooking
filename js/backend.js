@@ -6,7 +6,7 @@
   var sendRequest = function (onLoad, onError, url, method, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.timeout = '2000';
+    xhr.timeout = 2000;
 
     xhr.addEventListener('load', function () {
       var errorText;
@@ -33,6 +33,14 @@
       }
     });
 
+    xhr.addEventListener('timeout', function () {
+      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    });
+
+    xhr.addEventListener('error', function () {
+      onError('Произошла ошибка соединения');
+    });
+
     xhr.open(method, url);
     xhr.send(data);
   };
@@ -40,12 +48,12 @@
   var showError = function (errorText) {
     var errorContainer = document.createElement('div');
     var errorMessage = document.createElement('span');
-
+    errorContainer.classList.add('xhrError');
     errorContainer.appendChild(errorMessage);
 
     errorMessage.textContent = errorText;
 
-    document.body.insertAdjacentHTML('afterbegin', errorContainer);
+    document.appendChild(errorContainer);
   };
 
   window.backendLoad = function (onLoad, onError) {

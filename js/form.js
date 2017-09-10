@@ -10,6 +10,7 @@
   var formButton = document.querySelector('.form__submit');
   var sendOfferForm = document.querySelector('.notice__form');
   var allInput = sendOfferForm.querySelectorAll('input');
+  var form = document.querySelector('.notice__form');
   var HEADER_MIN_LENGTH = 30;
   var HEADER_MAX_LENGTH = 100;
   var GUESTS_AMOUNT = {
@@ -87,6 +88,15 @@
     }
   };
 
+  var formReset = function () {
+    form.reset();
+  }
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backendSave(formReset, window.showError, new FormData(form));
+  };
+
   var onFormButtonClick = function (evt) {
     if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
       offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
@@ -104,9 +114,11 @@
     }
   };
 
+
   checkinInput.addEventListener('change', onCheckinChange);
   checkoutInput.addEventListener('change', onCheckoutChange);
   houseType.addEventListener('change', onHouseTypeChangeSetPrice);
   roomNumber.addEventListener('change', onHouseTypeChange);
   formButton.addEventListener('click', onFormButtonClick);
+  form.addEventListener('submit', onFormSubmit);
 }());
