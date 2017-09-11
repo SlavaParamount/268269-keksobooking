@@ -56,13 +56,17 @@
     document.body.insertAdjacentElement('afterbegin', errorContainer);
   };
 
-  window.backendLoad = function (onLoad, onError) {
+  var backendLoad = function (onLoad, onError) {
     sendRequest(onLoad, onError, URL_GET, 'GET');
   };
 
-  window.backendSave = function (onLoad, onError, data) {
+  var backendSave = function (onLoad, onError, data) {
     sendRequest(onLoad, onError, URL_POST, 'POST', data);
   };
 
-  window.showError = showError;
+  window.backend = {
+    backendLoad: backendLoad,
+    backendSave: backendSave,
+    showError: showError
+  };
 }());
