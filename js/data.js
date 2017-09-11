@@ -49,9 +49,5 @@
 
   for (var i = 0; i < NUMBER_OF_ADS; i++) {
     ads[i] = defineAdObject(i);
-    // pointsFragment.appendChild(generatePointer(ads[i]));
   }
-
-  // window.data = ads;
-  // console.log(window.data);
 }());

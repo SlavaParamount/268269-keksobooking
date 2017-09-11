@@ -6,28 +6,16 @@
   var mainPinMaxX = 900;
   var mainPinMinY = 100;
   var mainPinMaxY = 500;
-  var RANDOM_ID;
   var pinFragment = document.createDocumentFragment();
   var adressInput = document.getElementById('address');
+  var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
+  var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
-  adressInput.disabled = true;
+  adressInput.readOnly = true;
+  adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
 
   var activatePin = function (pin) {
     window.pin.activateCurrentPin(pin);
-  };
-
-  var getRandomPin = function (id) {
-    var pin = document.querySelector('.pin[data-search-index="' + id + '"]');
-    return pin;
-  };
-
-  var activateRandomPin = function () {
-
-    RANDOM_ID = window.utils.getValueFromRange(0, window.data.length - 1);
-
-    window.pin.activateCurrentPin(getRandomPin(RANDOM_ID));
-
-    window.card.openDialog(getRandomPin(RANDOM_ID), activatePin);
   };
 
   var putAdsContent = function (data) {
@@ -38,9 +26,7 @@
     }
     tokyoPinMap.appendChild(pinFragment);
 
-    activateRandomPin();
-
-    window.initializeSort();
+    window.filter.initializeSort();
 
   };
 
