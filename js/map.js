@@ -40,6 +40,8 @@
 
     activateRandomPin();
 
+    window.initializeSort();
+
   };
 
   var onOpenDialogClick = function (evt) {
