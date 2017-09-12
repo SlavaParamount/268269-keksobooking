@@ -19,6 +19,7 @@
     THREE_ROOMS: ['1', '2', '3'],
     HUNDRED_ROOMS: ['0']
   };
+  var DEFAULT_GUESTS_NUMBER = GUESTS_AMOUNT.ONE_ROOM;
 
   housePrice.value = '1000';
   housePrice.min = '1000';
@@ -90,6 +91,7 @@
 
   var formReset = function () {
     form.reset();
+    onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
   };
 
   var onFormSubmit = function (evt) {
