@@ -22,7 +22,7 @@
     var lodgeCheckinTime = offer.querySelector('.lodge__checkin-time');
     var lodgeDescription = offer.querySelector('.lodge__description');
     var lodgeFeatures = offer.querySelector('.lodge__features');
-    lodgePrice.textContent = offerObj.offer.price + '&#x20bd;/ночь';
+    lodgePrice.textContent = offerObj.offer.price + '₽/ночь';
     lodgeTitle.textContent = offerObj.offer.title;
     lodgeAddress.textContent = offerObj.offer.adress;
     lodgeRoomGuests.textContent = 'Для ' + offerObj.offer.guests + ' гостей в ' + offerObj.offer.rooms + ' комнатах';

@@ -2,10 +2,10 @@
 (function () {
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
   var mainPin = tokyoPinMap.querySelector('.pin__main');
-  var mainPinMinX = 400;
-  var mainPinMaxX = 900;
-  var mainPinMinY = 100;
-  var mainPinMaxY = 500;
+  var MAIN_PIN_MIN_X = 400;
+  var MAIN_PIN_MAX_X = 900;
+  var MAIN_PIN_MIN_Y = 100;
+  var MAIN_PIN_MAX_Y = 500;
   var pinFragment = document.createDocumentFragment();
   var adressInput = document.getElementById('address');
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
@@ -63,7 +63,7 @@
       var nextX = mainPin.offsetLeft - shift.x + mainPin.offsetWidth * 0.5;
       var nextY = mainPin.offsetTop - shift.y + mainPin.offsetHeight;
 
-      if (nextX < mainPinMaxX && nextX > mainPinMinX && nextY > mainPinMinY && nextY < mainPinMaxY) {
+      if (nextX < MAIN_PIN_MAX_X && nextX > MAIN_PIN_MIN_X && nextY > MAIN_PIN_MIN_Y && nextY < MAIN_PIN_MAX_Y) {
         startPosition = {
           x: moveEvt.clientX,
           y: moveEvt.clientY
