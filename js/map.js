@@ -1,50 +1,53 @@
 'use strict';
 (function () {
   var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-  var pinFragment = document.createDocumentFragment();
-  var RANDOM_ID;
   var mainPin = tokyoPinMap.querySelector('.pin__main');
-  var mainPinMinX = 400;
-  var mainPinMaxX = 900;
-  var mainPinMinY = 100;
-  var mainPinMaxY = 500;
+  var MAIN_PIN_MIN_X = 400;
+  var MAIN_PIN_MAX_X = 900;
+  var MAIN_PIN_MIN_Y = 100;
+  var MAIN_PIN_MAX_Y = 500;
+  var NUMBER_OF_RANDOM_ADS = 3;
+  var pinFragment = document.createDocumentFragment();
   var adressInput = document.getElementById('address');
+  var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
+  var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
-  for (var i = 0; i < window.utils.NUMBER_OF_ADS; i++) {
-    pinFragment.appendChild(window.pin.generatePin(i));
-  }
+  adressInput.readOnly = true;
+  adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
 
-  adressInput.disabled = true;
-
-  tokyoPinMap.appendChild(pinFragment);
-
-  RANDOM_ID = window.utils.getValueFromRange(0, window.data.length - 1);
-
-  var getRandomPin = function (id) {
-    var pin = document.querySelector('.pin[data-search-index="' + id + '"]');
-    return pin;
-  };
-
-  var activatePinCallback = function (pin) {
+  var activatePin = function (pin) {
     window.pin.activateCurrentPin(pin);
   };
 
-  window.pin.activateCurrentPin(getRandomPin(RANDOM_ID));
+  var putAdsContent = function (data) {
+    var ads = data;
+    window.data = ads;
+    for (var i = 0; i < ads.length; i++) {
+      pinFragment.appendChild(window.pin.generatePin(i, ads[i]));
+    }
+    tokyoPinMap.appendChild(pinFragment);
 
-  window.card.openDialog(getRandomPin(RANDOM_ID), activatePinCallback);
+    var indexesToShow = [];
+    for (i = 0; i < ads.length; i++) {
+      indexesToShow.push(i);
+    }
+    indexesToShow = window.utils.randomizeArray(indexesToShow);
+    indexesToShow = indexesToShow.slice(0, NUMBER_OF_RANDOM_ADS);
+    window.pin.showPins(indexesToShow);
+  };
 
 
   var onOpenDialogClick = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
     if (currentPin) {
-      window.card.openDialog(currentPin, activatePinCallback);
+      window.card.openDialog(currentPin, activatePin);
     }
   };
 
   var onOpenDialogEnterPress = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
     if (window.utils.isEnterPress(evt) && currentPin) {
-      window.card.openDialog(currentPin, activatePinCallback);
+      window.card.openDialog(currentPin, activatePin);
     }
   };
 
@@ -67,7 +70,7 @@
       var nextX = mainPin.offsetLeft - shift.x + mainPin.offsetWidth * 0.5;
       var nextY = mainPin.offsetTop - shift.y + mainPin.offsetHeight;
 
-      if (nextX < mainPinMaxX && nextX > mainPinMinX && nextY > mainPinMinY && nextY < mainPinMaxY) {
+      if (nextX < MAIN_PIN_MAX_X && nextX > MAIN_PIN_MIN_X && nextY > MAIN_PIN_MIN_Y && nextY < MAIN_PIN_MAX_Y) {
         startPosition = {
           x: moveEvt.clientX,
           y: moveEvt.clientY
@@ -89,6 +92,7 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
+  window.backend.backendLoad(putAdsContent, window.backend.showError);
   mainPin.addEventListener('mousedown', onMainPinHandle);
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);

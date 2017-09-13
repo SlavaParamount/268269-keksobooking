@@ -666,3 +666,16 @@ select option:hover {
 .rounded {
     border-radius: 50%;
 }
+
+.xhrError {
+  border: 2px solid #ff6547;
+  background-color: #ffaa99;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 8px;
+}
+
+.xhrError span {
+  font: Arial sans-serif;
+  color: #ff6547;
+}

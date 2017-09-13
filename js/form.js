@@ -9,7 +9,8 @@
   var capacity = document.querySelector('#capacity');
   var formButton = document.querySelector('.form__submit');
   var sendOfferForm = document.querySelector('.notice__form');
-  var allInput = sendOfferForm.querySelectorAll('input');
+  var allInputs = sendOfferForm.querySelectorAll('input');
+  var form = document.querySelector('.notice__form');
   var HEADER_MIN_LENGTH = 30;
   var HEADER_MAX_LENGTH = 100;
   var GUESTS_AMOUNT = {
@@ -18,6 +19,7 @@
     THREE_ROOMS: ['1', '2', '3'],
     HUNDRED_ROOMS: ['0']
   };
+  var DEFAULT_GUESTS_NUMBER = GUESTS_AMOUNT.ONE_ROOM;
 
   housePrice.value = '1000';
   housePrice.min = '1000';
@@ -87,6 +89,16 @@
     }
   };
 
+  var formReset = function () {
+    form.reset();
+    onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
+  };
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.backend.backendSave(formReset, window.backend.showError, new FormData(form));
+  };
+
   var onFormButtonClick = function (evt) {
     if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
       offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
@@ -94,19 +106,21 @@
       offerFormHeader.setCustomValidity('');
     }
 
-    for (var i = 0; i < allInput.length; i++) {
-      if (!allInput[i].validity.valid) {
-        allInput[i].style.border = '2px solid red';
+    for (var i = 0; i < allInputs.length; i++) {
+      if (!allInputs[i].validity.valid) {
+        allInputs[i].style.border = '2px solid red';
         evt.preventDefault();
-      } else if (allInput[i].style.border && allInput[i].validity.valid) {
-        allInput[i].style.border = '';
+      } else if (allInputs[i].style.border && allInputs[i].validity.valid) {
+        allInputs[i].style.border = '';
       }
     }
   };
+
 
   checkinInput.addEventListener('change', onCheckinChange);
   checkoutInput.addEventListener('change', onCheckoutChange);
   houseType.addEventListener('change', onHouseTypeChangeSetPrice);
   roomNumber.addEventListener('change', onHouseTypeChange);
   formButton.addEventListener('click', onFormButtonClick);
+  form.addEventListener('submit', onFormSubmit);
 }());
