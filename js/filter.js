@@ -14,15 +14,6 @@
   var washerCheckbox = document.querySelector('input[value = "washer"]');
   var elevatorCheckbox = document.querySelector('input[value = "elevator"]');
   var conditionerCheckbox = document.querySelector('input[value = "conditioner"]');
-  var lastTimeout;
-  var DEBOUNCE_INTERVAL = 300;
-
-  window.debounce = function (fun) {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
-  };
 
   var initializeSort = function () {
     window.pin.hidePins();
