@@ -34,18 +34,22 @@
     pointerImage.style.width = '40px';
     pointer.appendChild(pointerImage);
     return pointer;
-  };
+  }
+
+  var getPinById = function(index) {
+    return document.querySelector(('.pin[data-search-index="' + index + '"]'));
+  }
 
   var activateRandomPin = function (indexes) {
     var randomID = indexes[window.utils.getValueFromRange(0, indexes.length - 1)];
-    var randomPin = document.querySelector(('.pin[data-search-index="' + randomID + '"]'));
+    var randomPin = getPinById(randomID);
     activateCurrentPin(randomPin);
     window.card.openDialog(randomPin, activateCurrentPin);
   };
 
   function showPins(indexes) {
     indexes.forEach(function (index) {
-      var pinToShow = document.querySelector(('.pin[data-search-index="' + index + '"]'));
+      var pinToShow = getPinById(index);
       pinToShow.classList.remove('hidden');
     });
     activateRandomPin(indexes);

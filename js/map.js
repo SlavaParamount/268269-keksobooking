@@ -26,9 +26,15 @@
     }
     tokyoPinMap.appendChild(pinFragment);
 
-    window.filter.initializeSort();
-
+    var indexesToShow = [];
+    for (i = 0; i < ads.length; i++) {
+      indexesToShow.push(i);
+    }
+    indexesToShow = window.utils.randomizeArray(indexesToShow);
+    indexesToShow = indexesToShow.slice(0, 3);
+    window.pin.showPins(indexesToShow);
   };
+
 
   var onOpenDialogClick = function (evt) {
     var currentPin = evt.target.closest('.pin:not(.pin__main)');
