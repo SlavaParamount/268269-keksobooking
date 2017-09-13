@@ -1,5 +1,14 @@
 'use strict';
 (function () {
+  var HEADER_MIN_LENGTH = 30;
+  var HEADER_MAX_LENGTH = 100;
+  var GUESTS_AMOUNT = {
+    ONE_ROOM: ['1'],
+    TWO_ROOMS: ['1', '2'],
+    THREE_ROOMS: ['1', '2', '3'],
+    HUNDRED_ROOMS: ['0']
+  };
+  var DEFAULT_GUESTS_NUMBER = GUESTS_AMOUNT.ONE_ROOM;
   var offerFormHeader = document.getElementById('title');
   var checkinInput = document.querySelector('#timein');
   var checkoutInput = document.querySelector('#timeout');
@@ -11,15 +20,6 @@
   var sendOfferForm = document.querySelector('.notice__form');
   var allInputs = sendOfferForm.querySelectorAll('input');
   var form = document.querySelector('.notice__form');
-  var HEADER_MIN_LENGTH = 30;
-  var HEADER_MAX_LENGTH = 100;
-  var GUESTS_AMOUNT = {
-    ONE_ROOM: ['1'],
-    TWO_ROOMS: ['1', '2'],
-    THREE_ROOMS: ['1', '2', '3'],
-    HUNDRED_ROOMS: ['0']
-  };
-  var DEFAULT_GUESTS_NUMBER = GUESTS_AMOUNT.ONE_ROOM;
 
   housePrice.value = '1000';
   housePrice.min = '1000';
