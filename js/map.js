@@ -8,7 +8,7 @@
   var MAIN_PIN_MAX_Y = 500;
   var NUMBER_OF_RANDOM_ADS = 3;
   var pinFragment = document.createDocumentFragment();
-  var adressInput = document.getElementById('address');
+  var adressInput = window.form.inputAddress;
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
   var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
@@ -16,14 +16,14 @@
   adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
 
   var activatePin = function (pin) {
-    window.pin.activateCurrentPin(pin);
+    window.pin.activateCurrent(pin);
   };
 
   var putAdsContent = function (data) {
     var ads = data;
     window.data = ads;
     for (var i = 0; i < ads.length; i++) {
-      pinFragment.appendChild(window.pin.generatePin(i, ads[i]));
+      pinFragment.appendChild(window.pin.generate(i, ads[i]));
     }
     tokyoPinMap.appendChild(pinFragment);
 
@@ -97,3 +97,4 @@
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);
 }());
+

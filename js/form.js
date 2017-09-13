@@ -1,16 +1,5 @@
 'use strict';
 (function () {
-  var offerFormHeader = document.getElementById('title');
-  var checkinInput = document.querySelector('#timein');
-  var checkoutInput = document.querySelector('#timeout');
-  var houseType = document.querySelector('#type');
-  var housePrice = document.querySelector('#price');
-  var roomNumber = document.querySelector('#room_number');
-  var capacity = document.querySelector('#capacity');
-  var formButton = document.querySelector('.form__submit');
-  var sendOfferForm = document.querySelector('.notice__form');
-  var allInputs = sendOfferForm.querySelectorAll('input');
-  var form = document.querySelector('.notice__form');
   var HEADER_MIN_LENGTH = 30;
   var HEADER_MAX_LENGTH = 100;
   var GUESTS_AMOUNT = {
@@ -20,6 +9,18 @@
     HUNDRED_ROOMS: ['0']
   };
   var DEFAULT_GUESTS_NUMBER = GUESTS_AMOUNT.ONE_ROOM;
+  var offerFormHeader = document.getElementById('title');
+  var checkinInput = document.querySelector('#timein');
+  var checkoutInput = document.querySelector('#timeout');
+  var houseType = document.querySelector('#type');
+  var housePrice = document.querySelector('#price');
+  var inputAddress = document.getElementById('address');
+  var roomNumber = document.querySelector('#room_number');
+  var capacity = document.querySelector('#capacity');
+  var formButton = document.querySelector('.form__submit');
+  var sendOfferForm = document.querySelector('.notice__form');
+  var allInputs = sendOfferForm.querySelectorAll('input');
+  var form = document.querySelector('.notice__form');
 
   housePrice.value = '1000';
   housePrice.min = '1000';
@@ -123,4 +124,8 @@
   roomNumber.addEventListener('change', onHouseTypeChange);
   formButton.addEventListener('click', onFormButtonClick);
   form.addEventListener('submit', onFormSubmit);
+
+  window.form = {
+    inputAddress: inputAddress
+  };
 }());

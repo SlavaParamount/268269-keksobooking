@@ -22,8 +22,8 @@
     pointer.classList.add('pin');
     pointer.classList.add('hidden');
     pointer.dataset.searchIndex = i;
-    pointer.style.left = (Math.floor((element.location.x) - 0.5 * POINTER_WIDTH)) + 'px';
-    pointer.style.top = (element.location.y - POINTER_HEIGHT) + 'px';
+    pointer.style.left = element.location.x - 0.5 * POINTER_WIDTH + 'px';
+    pointer.style.top = element.location.y - POINTER_HEIGHT + 'px';
     var pointerImage = document.createElement('img');
     pointerImage.src = element.author.avatar;
     pointer.tabIndex = '0';
@@ -62,9 +62,9 @@
   };
 
   window.pin = {
-    generatePin: generatePin,
-    activateCurrentPin: activateCurrentPin,
-    deactivatePin: deactivatePin,
+    generate: generatePin,
+    activateCurrent: activateCurrentPin,
+    deactivate: deactivatePin,
     showPins: showPins,
     hidePins: hidePins
   };

@@ -23,6 +23,7 @@
     var adsSorted = ads.filter(function (ad) {
       return checkElement(ad);
     });
+
     adsSorted.forEach(function (ad) {
       indexesToShow.push(ads.indexOf(ad));
     });

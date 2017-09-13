@@ -61,12 +61,16 @@
     changeDialogContent(getOfferByID(pin));
     dialogPanelParent.classList.remove('hidden');
     document.addEventListener('keydown', onCloseDialogEscPress);
+    closeButton.addEventListener('click', onClickCloseButton);
+    document.addEventListener('keydown', onCloseDialogEscPress);
     callback(pin);
   };
 
   var closeDialog = function () {
-    window.pin.deactivatePin();
+    window.pin.deactivate();
     dialogPanelParent.classList.add('hidden');
+    document.removeEventListener('keydown', onCloseDialogEscPress);
+    closeButton.removeEventListener('click', onClickCloseButton);
     document.removeEventListener('keydown', onCloseDialogEscPress);
   };
 
@@ -79,9 +83,6 @@
   var onClickCloseButton = function () {
     closeDialog();
   };
-
-  document.addEventListener('keydown', onCloseDialogEscPress);
-  closeButton.addEventListener('click', onClickCloseButton);
 
   window.card = {
     openDialog: openDialog,
