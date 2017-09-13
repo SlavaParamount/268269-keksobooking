@@ -97,3 +97,4 @@
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);
 }());
+
