@@ -14,6 +14,7 @@
   var checkoutInput = document.querySelector('#timeout');
   var houseType = document.querySelector('#type');
   var housePrice = document.querySelector('#price');
+  var inputAddress = document.getElementById('address');
   var roomNumber = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
   var formButton = document.querySelector('.form__submit');
@@ -123,4 +124,8 @@
   roomNumber.addEventListener('change', onHouseTypeChange);
   formButton.addEventListener('click', onFormButtonClick);
   form.addEventListener('submit', onFormSubmit);
+
+  window.form = {
+    inputAddress: inputAddress
+  };
 }());

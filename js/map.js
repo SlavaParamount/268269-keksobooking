@@ -8,7 +8,7 @@
   var MAIN_PIN_MAX_Y = 500;
   var NUMBER_OF_RANDOM_ADS = 3;
   var pinFragment = document.createDocumentFragment();
-  var adressInput = document.getElementById('address');
+  var adressInput = window.form.inputAddress;
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
   var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
