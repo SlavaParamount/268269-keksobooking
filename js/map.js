@@ -16,14 +16,14 @@
   adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
 
   var activatePin = function (pin) {
-    window.pin.activateCurrentPin(pin);
+    window.pin.activateCurrent(pin);
   };
 
   var putAdsContent = function (data) {
     var ads = data;
     window.data = ads;
     for (var i = 0; i < ads.length; i++) {
-      pinFragment.appendChild(window.pin.generatePin(i, ads[i]));
+      pinFragment.appendChild(window.pin.generate(i, ads[i]));
     }
     tokyoPinMap.appendChild(pinFragment);
 

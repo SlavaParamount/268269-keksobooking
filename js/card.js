@@ -65,7 +65,7 @@
   };
 
   var closeDialog = function () {
-    window.pin.deactivatePin();
+    window.pin.deactivate();
     dialogPanelParent.classList.add('hidden');
     document.removeEventListener('keydown', onCloseDialogEscPress);
   };
