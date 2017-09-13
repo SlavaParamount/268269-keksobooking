@@ -21,9 +21,8 @@
 
   var putAdsContent = function (data) {
     var ads = data;
-    window.data = ads;
     for (var i = 0; i < ads.length; i++) {
-      pinFragment.appendChild(window.pin.generatePin(i));
+      pinFragment.appendChild(window.pin.generatePin(i, ads[i]));
     }
     tokyoPinMap.appendChild(pinFragment);
 

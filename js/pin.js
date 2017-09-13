@@ -4,7 +4,6 @@
   var POINTER_WIDTH = 56;
   var PIN_ACTIVE_CLASS = 'pin--active';
   var activePin;
-  var ads = window.data;
 
   var deactivatePin = function () {
     if (activePin) {
@@ -18,16 +17,15 @@
     activePin.classList.add(PIN_ACTIVE_CLASS);
   };
 
-  var generatePin = function (i) {
-    ads = window.data;
+  var generatePin = function (i, element) {
     var pointer = document.createElement('div');
     pointer.classList.add('pin');
     pointer.classList.add('hidden');
     pointer.dataset.searchIndex = i;
-    pointer.style.left = (Math.floor((ads[i].location.x) - 0.5 * POINTER_WIDTH)) + 'px';
-    pointer.style.top = (ads[i].location.y - POINTER_HEIGHT) + 'px';
+    pointer.style.left = (Math.floor((element.location.x) - 0.5 * POINTER_WIDTH)) + 'px';
+    pointer.style.top = (element.location.y - POINTER_HEIGHT) + 'px';
     var pointerImage = document.createElement('img');
-    pointerImage.src = ads[i].author.avatar;
+    pointerImage.src = element.author.avatar;
     pointer.tabIndex = '0';
     pointerImage.classList.add('rounded');
     pointerImage.style.height = '40px';

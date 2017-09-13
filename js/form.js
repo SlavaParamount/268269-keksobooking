@@ -9,7 +9,7 @@
   var capacity = document.querySelector('#capacity');
   var formButton = document.querySelector('.form__submit');
   var sendOfferForm = document.querySelector('.notice__form');
-  var allInput = sendOfferForm.querySelectorAll('input');
+  var allInputs = sendOfferForm.querySelectorAll('input');
   var form = document.querySelector('.notice__form');
   var HEADER_MIN_LENGTH = 30;
   var HEADER_MAX_LENGTH = 100;
@@ -106,12 +106,12 @@
       offerFormHeader.setCustomValidity('');
     }
 
-    for (var i = 0; i < allInput.length; i++) {
-      if (!allInput[i].validity.valid) {
-        allInput[i].style.border = '2px solid red';
+    for (var i = 0; i < allInputs.length; i++) {
+      if (!allInputs[i].validity.valid) {
+        allInputs[i].style.border = '2px solid red';
         evt.preventDefault();
-      } else if (allInput[i].style.border && allInput[i].validity.valid) {
-        allInput[i].style.border = '';
+      } else if (allInputs[i].style.border && allInputs[i].validity.valid) {
+        allInputs[i].style.border = '';
       }
     }
   };
