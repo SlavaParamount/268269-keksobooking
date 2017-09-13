@@ -14,6 +14,15 @@
   var washerCheckbox = document.querySelector('input[value = "washer"]');
   var elevatorCheckbox = document.querySelector('input[value = "elevator"]');
   var conditionerCheckbox = document.querySelector('input[value = "conditioner"]');
+  var lastTimeout;
+  var DEBOUNCE_INTERVAL = 300;
+
+  window.debounce = function (fun) {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(fun, DEBOUNCE_INTERVAL);
+  };
 
   var initializeSort = function () {
     window.pin.hidePins();
@@ -31,46 +40,46 @@
 
   var onHouseTypeChange = function (evt) {
     houseTypeValue = evt.target.value;
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onRoomNumberChange = function (evt) {
     roomNumberValue = evt.target.value;
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onGuestsNumberChange = function (evt) {
     guestsNumberValue = evt.target.value;
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onPriceChange = function (evt) {
     priceValue = evt.target.value;
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onWifiChange = function () {
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onDishWasherInputChange = function () {
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onParkingInputChange = function () {
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onWasherInputChange = function () {
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onElevatorInputChange = function () {
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var onConditionerInputChange = function () {
-    initializeSort();
+    window.debounce(initializeSort);
   };
 
   var getPriceOption = function (value) {

@@ -6,6 +6,7 @@
   var MAIN_PIN_MAX_X = 900;
   var MAIN_PIN_MIN_Y = 100;
   var MAIN_PIN_MAX_Y = 500;
+  var NUMBER_OF_RANDOM_ADS = 3;
   var pinFragment = document.createDocumentFragment();
   var adressInput = document.getElementById('address');
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
@@ -31,7 +32,7 @@
       indexesToShow.push(i);
     }
     indexesToShow = window.utils.randomizeArray(indexesToShow);
-    indexesToShow = indexesToShow.slice(0, 3);
+    indexesToShow = indexesToShow.slice(0, NUMBER_OF_RANDOM_ADS);
     window.pin.showPins(indexesToShow);
   };
 

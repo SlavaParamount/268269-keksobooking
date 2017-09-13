@@ -34,11 +34,11 @@
     pointerImage.style.width = '40px';
     pointer.appendChild(pointerImage);
     return pointer;
-  }
+  };
 
-  var getPinById = function(index) {
+  var getPinById = function (index) {
     return document.querySelector(('.pin[data-search-index="' + index + '"]'));
-  }
+  };
 
   var activateRandomPin = function (indexes) {
     var randomID = indexes[window.utils.getValueFromRange(0, indexes.length - 1)];
