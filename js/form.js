@@ -51,8 +51,8 @@
         housePrice.value = '1000';
         break;
       case 'house':
-        housePrice.min = '5000';
-        housePrice.value = '5000';
+        housePrice.min = '10000';
+        housePrice.value = '10000';
         break;
       case 'palace':
         housePrice.min = '10000';
