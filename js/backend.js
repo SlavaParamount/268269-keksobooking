@@ -65,8 +65,8 @@
   };
 
   window.backend = {
-    backendLoad: backendLoad,
-    backendSave: backendSave,
+    load: backendLoad,
+    save: backendSave,
     showError: showError
   };
 }());
