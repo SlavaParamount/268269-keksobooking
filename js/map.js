@@ -92,7 +92,7 @@
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  window.backend.backendLoad(putAdsContent, window.backend.showError);
+  window.backend.load(putAdsContent, window.backend.showError);
   mainPin.addEventListener('mousedown', onMainPinHandle);
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);

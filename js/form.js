@@ -97,7 +97,7 @@
 
   var onFormSubmit = function (evt) {
     evt.preventDefault();
-    window.backend.backendSave(formReset, window.backend.showError, new FormData(form));
+    window.backend.save(formReset, window.backend.showError, new FormData(form));
   };
 
   var onFormButtonClick = function (evt) {
