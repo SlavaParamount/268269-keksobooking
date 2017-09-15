@@ -28,11 +28,9 @@
     var maxGuest = 0;
     for (var i = 0; i < capacity.options.length; i++) {
       var option = capacity[i];
-      if (inputArray.indexOf(option.value) === -1) {
-        option.disabled = true;
-      } else {
-        option.disabled = false;
-        maxGuest = option.value > maxGuest ? option.value : maxGuest;
+      option.disabled = inputArray.indexOf(option.value) === -1;
+      if (!option.disabled) {
+        maxGuest = Math.max(option.value, maxGuest);
       }
     }
     capacity.value = maxGuest;
