@@ -87,17 +87,13 @@
   var filterByCheckbox = function (featuresArray, checkFeature) {
     if (!checkFeature.checked) {
       return true;
-    } else {
-      return (featuresArray.indexOf(checkFeature.value) >= 0);
     }
+    return (featuresArray.indexOf(checkFeature.value) >= 0);
+
   };
 
   var filterBySelectInput = function (elementValue, valueSelected) {
-    if (valueSelected === 'any') {
-      return true;
-    } else {
-      return (elementValue === valueSelected);
-    }
+    return valueSelected === 'any' || elementValue === valueSelected;
   };
 
   var checkElement = function (element) {
