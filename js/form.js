@@ -107,6 +107,15 @@
       offerFormHeader.setCustomValidity('');
     }
 
+    allInputs.forEach(function (element) {
+      if (!element.validity.valid) {
+        element.style.border = '2px solid red';
+        evt.preventDefault();
+      } else if (element.style.border && element.validity.valid) {
+        element.style.border = '';
+      }
+    });
+    /*
     for (var i = 0; i < allInputs.length; i++) {
       if (!allInputs[i].validity.valid) {
         allInputs[i].style.border = '2px solid red';
@@ -115,6 +124,7 @@
         allInputs[i].style.border = '';
       }
     }
+    */
   };
 
 

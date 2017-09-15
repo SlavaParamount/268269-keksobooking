@@ -38,9 +38,10 @@
         break;
     }
 
-    for (var i = 0; i < offerObj.offer.features.length; i++) {
-      lodgeFeatures.appendChild(createFeatureElement(offerObj.offer.features[i]));
-    }
+    offerObj.offer.features.forEach(function (element) {
+      lodgeFeatures.appendChild(createFeatureElement(element));
+    });
+
     return offer;
 
   };

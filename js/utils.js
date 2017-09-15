@@ -6,12 +6,11 @@
 
   var randomizeArray = function (arr) {
     var arrCopy = arr.slice();
-    var arrLength = arrCopy.length;
-    var finalArray = [];
-    for (var i = 0; i < arr.length; i++) {
-      var randomIndex = getValueFromRange(0, arrLength - i);
-      finalArray[i] = arrCopy.splice(randomIndex, 1)[0];
-    }
+    var finalArray = arr.map(function (_element, i) {
+      var randomIndex = getValueFromRange(0, arr.length - i);
+      return arrCopy.splice(randomIndex, 1)[0];
+    });
+
     return finalArray;
   };
 
