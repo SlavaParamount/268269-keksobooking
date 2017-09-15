@@ -1,9 +1,10 @@
 'use strict';
 (function () {
   var lodgeTemplate = document.querySelector('#lodge-template');
-  var dialogTitle = document.querySelector('.dialog__title');
-  var closeButton = document.querySelector('.dialog__close');
   var oldDialogPanel = document.querySelector('.dialog__panel');
+  var dialog = document.querySelector('.dialog');
+  var dialogTitle = dialog.querySelector('.dialog__title');
+  var closeButton = dialog.querySelector('.dialog__close');
   var dialogPanelParent = oldDialogPanel.parentNode;
   var createFeatureElement = function (feature) {
     var newFeatureElement = document.createElement('span');
