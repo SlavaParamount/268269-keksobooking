@@ -1,12 +1,12 @@
 'use strict';
 (function () {
-  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-  var mainPin = tokyoPinMap.querySelector('.pin__main');
   var MAIN_PIN_MIN_X = 400;
   var MAIN_PIN_MAX_X = 900;
   var MAIN_PIN_MIN_Y = 100;
   var MAIN_PIN_MAX_Y = 500;
   var NUMBER_OF_RANDOM_ADS = 3;
+  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
+  var mainPin = tokyoPinMap.querySelector('.pin__main');
   var pinFragment = document.createDocumentFragment();
   var adressInput = window.form.inputAddress;
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
