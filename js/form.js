@@ -99,11 +99,9 @@
   };
 
   var onFormButtonClick = function (evt) {
-    if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
-      offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
-    } else {
-      offerFormHeader.setCustomValidity('');
-    }
+    var errorText = offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH ? 'Минимальная длина строки - 30, максимальная - 100' : '';
+
+    offerFormHeader.setCustomValidity(errorText);
 
     allInputs.forEach(function (element) {
       if (!element.validity.valid) {

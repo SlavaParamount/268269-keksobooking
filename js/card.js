@@ -56,7 +56,6 @@
 
     offerObj.offer.photos.forEach(function (element) {
       lodgePhotos.appendChild(createPicElement(element));
-      console.log(lodgePhotos);
     });
 
     return offer;
