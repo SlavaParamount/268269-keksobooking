@@ -6,11 +6,21 @@
   var dialogTitle = dialog.querySelector('.dialog__title');
   var closeButton = dialog.querySelector('.dialog__close');
   var dialogPanelParent = oldDialogPanel.parentNode;
+
   var createFeatureElement = function (feature) {
     var newFeatureElement = document.createElement('span');
     newFeatureElement.classList.add('feature__image');
     newFeatureElement.classList.add('feature__image--' + feature);
     return newFeatureElement;
+  };
+
+  var createPicElement = function (picData) {
+    var newPicElement = document.createElement('img');
+    newPicElement.src = picData;
+    newPicElement.alt = 'Lodge photo';
+    newPicElement. height = 52;
+    newPicElement.width = 42;
+    return newPicElement;
   };
 
   var createNewDialogPanel = function (offerObj) {
@@ -23,6 +33,7 @@
     var lodgeCheckinTime = offer.querySelector('.lodge__checkin-time');
     var lodgeDescription = offer.querySelector('.lodge__description');
     var lodgeFeatures = offer.querySelector('.lodge__features');
+    var lodgePhotos = offer.querySelector('.lodge__photos');
     lodgePrice.textContent = offerObj.offer.price + '₽/ночь';
     lodgeTitle.textContent = offerObj.offer.title;
     lodgeAddress.textContent = offerObj.offer.adress;
@@ -41,6 +52,11 @@
 
     offerObj.offer.features.forEach(function (element) {
       lodgeFeatures.appendChild(createFeatureElement(element));
+    });
+
+    offerObj.offer.photos.forEach(function (element) {
+      lodgePhotos.appendChild(createPicElement(element));
+      console.log(lodgePhotos);
     });
 
     return offer;

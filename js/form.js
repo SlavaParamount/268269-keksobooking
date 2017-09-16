@@ -113,7 +113,7 @@
         element.style.border = '';
       }
     });
-  }
+  };
 
   onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
 

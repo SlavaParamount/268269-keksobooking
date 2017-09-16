@@ -12,6 +12,8 @@
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
   var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
+  window.card.closeDialog();
+
   adressInput.readOnly = true;
   var setCurrentAddress = function () {
     adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
