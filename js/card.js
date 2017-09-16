@@ -82,7 +82,8 @@
     }
   };
 
-  var onClickCloseButton = function () {
+  var onClickCloseButton = function (evt) {
+    evt.preventDefault();
     closeDialog();
   };
 
