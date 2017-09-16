@@ -13,7 +13,11 @@
   var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
   adressInput.readOnly = true;
-  adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
+  var setCurrentAddress = function () {
+    adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
+  };
+
+  setCurrentAddress();
 
   var activatePin = function (pin) {
     window.pin.activateCurrent(pin);
@@ -96,5 +100,9 @@
   mainPin.addEventListener('mousedown', onMainPinHandle);
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);
+
+  window.map = {
+    setCurrentAddress: setCurrentAddress
+  };
 }());
 

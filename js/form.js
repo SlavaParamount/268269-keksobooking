@@ -90,6 +90,7 @@
   var formReset = function () {
     form.reset();
     onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
+    window.map.setCurrentAddress();
   };
 
   var onFormSubmit = function (evt) {
@@ -112,7 +113,9 @@
         element.style.border = '';
       }
     });
-  };
+  }
+
+  onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
 
   checkinInput.addEventListener('change', onCheckinChange);
   checkoutInput.addEventListener('change', onCheckoutChange);
