@@ -38,6 +38,7 @@
     indexesToShow = window.utils.randomizeArray(indexesToShow);
     indexesToShow = indexesToShow.slice(0, NUMBER_OF_RANDOM_ADS);
     window.pin.showPins(indexesToShow);
+    window.pin.activateRandom(indexesToShow);
   };
 
 
