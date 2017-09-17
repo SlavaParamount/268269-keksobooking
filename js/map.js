@@ -9,14 +9,13 @@
   var mainPin = tokyoPinMap.querySelector('.pin__main');
   var pinFragment = document.createDocumentFragment();
   var adressInput = window.form.inputAddress;
-  var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
-  var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
   window.card.closeDialog();
 
   adressInput.readOnly = true;
+
   var setCurrentAddress = function () {
-    adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
+    adressInput.value = 'x: ' + Math.floor(mainPin.offsetLeft + mainPin.offsetWidth / 2) + ', y: ' + Math.floor(mainPin.offsetTop + mainPin.offsetHeight);
   };
 
   setCurrentAddress();

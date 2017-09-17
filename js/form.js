@@ -98,7 +98,7 @@
     window.backend.save(formReset, window.backend.showError, new FormData(form));
   };
 
-  var onFormButtonClick = function (evt) {
+  var onFormButtonClick = function () {
     var errorText = offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH ? 'Минимальная длина строки - 30, максимальная - 100' : '';
 
     offerFormHeader.setCustomValidity(errorText);
@@ -106,7 +106,6 @@
     allInputs.forEach(function (element) {
       if (!element.validity.valid) {
         element.style.border = '2px solid red';
-        evt.preventDefault();
       } else if (element.style.border && element.validity.valid) {
         element.style.border = '';
       }
