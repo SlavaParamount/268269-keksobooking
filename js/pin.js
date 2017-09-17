@@ -50,7 +50,6 @@
       var pinToShow = getPinById(index);
       pinToShow.classList.remove('hidden');
     });
-    activateRandomPin(indexes);
   }
 
 
@@ -65,6 +64,7 @@
     generate: generatePin,
     activateCurrent: activateCurrentPin,
     deactivate: deactivatePin,
+    activateRandom: activateRandomPin,
     showPins: showPins,
     hidePins: hidePins
   };

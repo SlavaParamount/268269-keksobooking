@@ -1,12 +1,12 @@
 'use strict';
 (function () {
-  var houseType = document.getElementById('housing_type');
+  var houseType = document.querySelector('#housing_type');
   var houseTypeValue = houseType.value;
-  var roomNumber = document.getElementById('housing_room-number');
+  var roomNumber = document.querySelector('#housing_room-number');
   var roomNumberValue = roomNumber.value;
-  var guestsNumber = document.getElementById('housing_guests-number');
+  var guestsNumber = document.querySelector('#housing_guests-number');
   var guestsNumberValue = guestsNumber.value;
-  var price = document.getElementById('housing_price');
+  var price = document.querySelector('#housing_price');
   var priceValue = price.value;
   var wifiCheckbox = document.querySelector('input[value = "wifi"]');
   var dishwasherCheckbox = document.querySelector('input[value = "dishwasher"]');
@@ -87,17 +87,13 @@
   var filterByCheckbox = function (featuresArray, checkFeature) {
     if (!checkFeature.checked) {
       return true;
-    } else {
-      return (featuresArray.indexOf(checkFeature.value) >= 0);
     }
+    return (featuresArray.indexOf(checkFeature.value) >= 0);
+
   };
 
   var filterBySelectInput = function (elementValue, valueSelected) {
-    if (valueSelected === 'any') {
-      return true;
-    } else {
-      return (elementValue === valueSelected);
-    }
+    return valueSelected === 'any' || elementValue === valueSelected;
   };
 
   var checkElement = function (element) {

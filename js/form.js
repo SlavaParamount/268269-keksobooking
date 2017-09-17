@@ -9,18 +9,17 @@
     HUNDRED_ROOMS: ['0']
   };
   var DEFAULT_GUESTS_NUMBER = GUESTS_AMOUNT.ONE_ROOM;
-  var offerFormHeader = document.getElementById('title');
-  var checkinInput = document.querySelector('#timein');
-  var checkoutInput = document.querySelector('#timeout');
-  var houseType = document.querySelector('#type');
-  var housePrice = document.querySelector('#price');
-  var inputAddress = document.getElementById('address');
-  var roomNumber = document.querySelector('#room_number');
-  var capacity = document.querySelector('#capacity');
-  var formButton = document.querySelector('.form__submit');
-  var sendOfferForm = document.querySelector('.notice__form');
-  var allInputs = sendOfferForm.querySelectorAll('input');
   var form = document.querySelector('.notice__form');
+  var offerFormHeader = form.querySelector('#title');
+  var checkinInput = form.querySelector('#timein');
+  var checkoutInput = form.querySelector('#timeout');
+  var houseType = form.querySelector('#type');
+  var housePrice = form.querySelector('#price');
+  var inputAddress = form.querySelector('#address');
+  var roomNumber = form.querySelector('#room_number');
+  var capacity = form.querySelector('#capacity');
+  var formButton = form.querySelector('.form__submit');
+  var allInputs = form.querySelectorAll('input');
 
   housePrice.value = '1000';
   housePrice.min = '1000';
@@ -29,11 +28,9 @@
     var maxGuest = 0;
     for (var i = 0; i < capacity.options.length; i++) {
       var option = capacity[i];
-      if (inputArray.indexOf(option.value) === -1) {
-        option.disabled = true;
-      } else {
-        option.disabled = false;
-        maxGuest = option.value > maxGuest ? option.value : maxGuest;
+      option.disabled = inputArray.indexOf(option.value) === -1;
+      if (!option.disabled) {
+        maxGuest = Math.max(option.value, maxGuest);
       }
     }
     capacity.value = maxGuest;
@@ -93,6 +90,7 @@
   var formReset = function () {
     form.reset();
     onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
+    window.map.setCurrentAddress();
   };
 
   var onFormSubmit = function (evt) {
@@ -101,22 +99,21 @@
   };
 
   var onFormButtonClick = function (evt) {
-    if (offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH) {
-      offerFormHeader.setCustomValidity('Минимальная длина строки - 30, максимальная - 100');
-    } else {
-      offerFormHeader.setCustomValidity('');
-    }
+    var errorText = offerFormHeader.value.length < HEADER_MIN_LENGTH || offerFormHeader.value.length > HEADER_MAX_LENGTH ? 'Минимальная длина строки - 30, максимальная - 100' : '';
 
-    for (var i = 0; i < allInputs.length; i++) {
-      if (!allInputs[i].validity.valid) {
-        allInputs[i].style.border = '2px solid red';
+    offerFormHeader.setCustomValidity(errorText);
+
+    allInputs.forEach(function (element) {
+      if (!element.validity.valid) {
+        element.style.border = '2px solid red';
         evt.preventDefault();
-      } else if (allInputs[i].style.border && allInputs[i].validity.valid) {
-        allInputs[i].style.border = '';
+      } else if (element.style.border && element.validity.valid) {
+        element.style.border = '';
       }
-    }
+    });
   };
 
+  onRoomNumberChange(DEFAULT_GUESTS_NUMBER);
 
   checkinInput.addEventListener('change', onCheckinChange);
   checkoutInput.addEventListener('change', onCheckoutChange);

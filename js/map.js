@@ -1,19 +1,25 @@
 'use strict';
 (function () {
-  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
-  var mainPin = tokyoPinMap.querySelector('.pin__main');
   var MAIN_PIN_MIN_X = 400;
   var MAIN_PIN_MAX_X = 900;
   var MAIN_PIN_MIN_Y = 100;
   var MAIN_PIN_MAX_Y = 500;
   var NUMBER_OF_RANDOM_ADS = 3;
+  var tokyoPinMap = document.querySelector('.tokyo__pin-map');
+  var mainPin = tokyoPinMap.querySelector('.pin__main');
   var pinFragment = document.createDocumentFragment();
   var adressInput = window.form.inputAddress;
   var pinStartX = mainPin.offsetLeft + (mainPin.offsetWidth / 2);
   var pinStartY = mainPin.offsetTop + mainPin.offsetHeight;
 
+  window.card.closeDialog();
+
   adressInput.readOnly = true;
-  adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
+  var setCurrentAddress = function () {
+    adressInput.value = 'x: ' + Math.floor(pinStartX) + ', y: ' + Math.floor(pinStartY);
+  };
+
+  setCurrentAddress();
 
   var activatePin = function (pin) {
     window.pin.activateCurrent(pin);
@@ -34,6 +40,7 @@
     indexesToShow = window.utils.randomizeArray(indexesToShow);
     indexesToShow = indexesToShow.slice(0, NUMBER_OF_RANDOM_ADS);
     window.pin.showPins(indexesToShow);
+    window.pin.activateRandom(indexesToShow);
   };
 
 
@@ -96,5 +103,9 @@
   mainPin.addEventListener('mousedown', onMainPinHandle);
   tokyoPinMap.addEventListener('keydown', onOpenDialogEnterPress);
   tokyoPinMap.addEventListener('click', onOpenDialogClick);
+
+  window.map = {
+    setCurrentAddress: setCurrentAddress
+  };
 }());
 
